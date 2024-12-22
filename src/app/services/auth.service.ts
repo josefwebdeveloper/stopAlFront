@@ -9,6 +9,7 @@ interface User {
   displayName: string;
   email?: string;
   photoURL?: string;
+  token?: string;
 }
 
 @Injectable({
@@ -26,7 +27,7 @@ export class AuthService {
   }
 
   loginWithGoogle() {
-    window.location.href = 'https://stopalcholnode.vercel.app/auth/google';
+    window.location.href = `${environment.apiUrl}/auth/google`;
   }
 
   setUser(user: User) {
@@ -37,17 +38,19 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    window.location.href = 'https://stopalcholnode.vercel.app/logout';
+    window.location.href = '/';
   }
 
   isAuthenticated(): boolean {
-    return this.userSubject.value !== null;
+    const user = this.userSubject.value;
+    return user !== null && !!user.token;
   }
 
-  // No custom "Authorization" header for session-based
   private getAuthHeaders(): HttpHeaders {
+    const user = this.userSubject.value;
     return new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${user?.token}`
     });
   }
 
@@ -57,7 +60,6 @@ export class AuthService {
       entryData,
       {
         headers: this.getAuthHeaders(),
-        withCredentials: true
       }
     );
   }
@@ -67,7 +69,6 @@ export class AuthService {
       `${environment.apiUrl}/api/entries`,
       {
         headers: this.getAuthHeaders(),
-        withCredentials: true
       }
     );
   }
