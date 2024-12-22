@@ -25,21 +25,20 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Uncomment if you want to load existing entries on init:
+    // Optional: load entries on init
     // this.loadDashboardData();
   }
 
-  private loadDashboardData() {
+  loadDashboardData() {
     this.authService.getEntries().subscribe({
-      next: (entries: EntryData[]) => {
+      next: (entries) => {
         this.dashboardData = entries;
         console.log('Loaded entries:', entries);
       },
       error: (error) => {
         console.error('Error loading entries:', error);
         if (error.status === 401) {
-          // Handle unauthorized error - maybe redirect to login
-          console.log('User not authenticated, redirecting to login...');
+          // Not authenticated -> prompt login
           this.authService.loginWithGoogle();
         }
       }
@@ -54,14 +53,14 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: EntryData | undefined) => {
       if (result) {
         this.authService.addEntry(result).subscribe({
-          next: (response: EntryData) => {
+          next: (response) => {
             console.log('Entry added successfully:', response);
             this.loadDashboardData();
           },
           error: (error) => {
             console.error('Error adding entry:', error);
             if (error.status === 401) {
-              // Handle unauthorized error
+              // Not authenticated
               this.authService.loginWithGoogle();
             }
           }
