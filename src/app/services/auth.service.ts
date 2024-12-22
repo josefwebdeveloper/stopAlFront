@@ -42,7 +42,10 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
+    console.log('User:', this.userSubject.value);
     const user = this.userSubject.value;
+    console.log('Token:', user?.token);
+    console.log('Is authenticated:', user !== null && !!user.token);
     return user !== null && !!user.token;
   }
 
