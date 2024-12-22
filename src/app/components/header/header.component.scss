@@ -33,6 +33,10 @@
       object-fit: cover;
     }
   }
+  
+  .add-data-btn {
+    margin-right: 16px;
+  }
 }
 
 :host ::ng-deep {

@@ -7,6 +7,10 @@
   
   <span class="spacer"></span>
   
+  <button mat-mini-fab color="accent" (click)="openAddDataPopup()" class="add-data-btn">
+    <mat-icon>add</mat-icon>
+  </button>
+  
   <ng-container *ngIf="authService.user$ | async as user">
     <button mat-button [matMenuTriggerFor]="userMenu" class="user-button mdc-button">
       <span class="mdc-button__label">
