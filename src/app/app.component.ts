@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +12,14 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [
-    RouterOutlet,
-    RouterLink,
-    CommonModule,
+    RouterModule, 
+    HeaderComponent, 
     MatSidenavModule,
-    MatToolbarModule,
     MatListModule,
     MatIconModule,
-    MatButtonModule
+    CommonModule
   ]
 })
-export class AppComponent { }
+export class AppComponent {
+  title = 'stop-al-front';
+}

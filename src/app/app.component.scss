@@ -1,28 +1,10 @@
-.app-container {
-  display: flex;
-  flex-direction: column;
+:host {
+  display: block;
   height: 100vh;
 }
 
-.app-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  height: 64px;
-  background: var(--primary-dark);
-  color: white;
-  box-shadow: 0 2px 6px var(--shadow-color);
-
-  h1 {
-    margin-left: 16px;
-    font-size: 20px;
-  }
-}
-
 .sidenav-container {
-  flex: 1;
+  height: calc(100vh - 64px);
   margin-top: 64px;
 }
 
@@ -64,4 +46,8 @@
 .sidenav-content {
   padding: 20px;
   background-color: var(--background-light);
+}
+
+.main-content {
+  height: 100%;
 }
