@@ -2,44 +2,96 @@
   display: block;
   height: 100vh;
   background: linear-gradient(135deg, #2b2b40 0%, #1a1a2e 100%);
+  .mat-sidenav-content {
+    overflow: hidden;
+  }
 }
 
 .app-container {
   height: 100vh;
+  background: transparent;
+
+  .mat-drawer-container {
+    background: transparent;
+  }
 }
 
 mat-sidenav {
-  width: 250px;
-  background: rgba(45, 45, 68, 0.98);
-  backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  width: 280px;
+  background: #1e1e2d;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sidenav-content {
-  padding-top: 64px; // Height of the header
+  padding-top: 64px;
   min-height: 100vh;
+  background: transparent;
 }
 
 .nav-list {
-  padding: 16px 0;
+  padding: 24px 0;
 
   .mat-mdc-list-item {
+    margin: 4px 8px;
+    border-radius: 6px;
+    height: 44px;
     color: rgba(255, 255, 255, 0.7);
-    border-left: 3px solid transparent;
-    
+
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     &.active {
+      background: #2b2b40;
       color: white;
-      background: rgba(255, 255, 255, 0.05);
-      border-left-color: #fff;
+
+      mat-icon {
+        color: #3699ff;
+      }
     }
 
     mat-icon {
-      margin-right: 16px;
+      margin-right: 12px;
+      width: 22px;
+      height: 22px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}
+
+::ng-deep {
+  .mat-drawer-backdrop.mat-drawer-backdrop-showing {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+  }
+
+  .mat-mdc-list-item {
+    --mat-mdc-list-item-label-text-color: rgba(255, 255, 255, 0.7);
+    --mat-mdc-list-item-icon-color: rgba(255, 255, 255, 0.7);
+    --mdc-list-list-item-container-color: transparent;
+    --mdc-list-list-item-container-shape: 6px;
+    --mdc-list-list-item-label-text-size: 14px;
+
+    .mdc-list-item__primary-text {
       color: inherit;
     }
+
+    &:hover {
+      .mdc-list-item__primary-text {
+        color: white;
+      }
+
+      mat-icon {
+        color: white;
+      }
+    }
+  }
+
+  .mat-drawer-container {
+    background-color: transparent !important;
+  }
+
+  .mat-drawer-content {
+    background-color: transparent !important;
   }
 }
