@@ -1,7 +1,54 @@
 <div class="dashboard-container">
-  <!-- Your existing dashboard content -->
+  <div class="widget-grid">
+    <!-- Weight Card -->
+    <mat-card class="widget-card weight-card">
+      <mat-card-header>
+        <mat-card-title>Weight</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value">
+          {{ latestEntry?.weight || 0 }} kg
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-  <!-- Floating Action Button -->
+    <!-- Calories Card -->
+    <mat-card class="widget-card calories-card">
+      <mat-card-header>
+        <mat-card-title>Calories</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value">
+          {{ latestEntry?.activityCalories || 0 }} kcal
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Sleep Card -->
+    <mat-card class="widget-card sleep-card">
+      <mat-card-header>
+        <mat-card-title>Sleep</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value">
+          {{ latestEntry?.sleep || 0 }} hours
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Alcohol Card -->
+    <mat-card class="widget-card alcohol-card">
+      <mat-card-header>
+        <mat-card-title>Alcohol</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value">
+          {{ latestEntry?.alcohol || 0 }} units
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
   <button mat-fab color="primary" 
           class="add-data-fab"
           (click)="openAddDataPopup()">

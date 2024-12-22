@@ -5,6 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { IconService } from './services/icon.service';
 
 @Component({
   selector: 'app-root',
@@ -22,4 +23,6 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'stop-al-front';
+
+  constructor(private iconService: IconService) {}
 }

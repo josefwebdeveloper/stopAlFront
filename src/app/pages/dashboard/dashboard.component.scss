@@ -1,6 +1,65 @@
 .dashboard-container {
   position: relative;
   min-height: 100%;
+  padding: 24px;
+  background: linear-gradient(135deg, #2b2b40 0%, #1a1a2e 100%);
+  min-height: 100vh;
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding-bottom: 80px;
+}
+
+.widget-card {
+  border-radius: 16px;
+  background: rgba(45, 45, 68, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s;
+  color: white;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  .mat-mdc-card-header {
+    padding: 16px;
+    color: white;
+  }
+
+  .mat-mdc-card-title {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px 0;
+  color: white;
+}
+
+// Specific card gradients
+.weight-card {
+  background: linear-gradient(135deg, #2b2b40 0%, #3a3a5c 100%);
+}
+
+.calories-card {
+  background: linear-gradient(135deg, #2d3250 0%, #424272 100%);
+}
+
+.sleep-card {
+  background: linear-gradient(135deg, #2b3d4f 0%, #3a5270 100%);
+}
+
+.alcohol-card {
+  background: linear-gradient(135deg, #332b40 0%, #4a3a5c 100%);
 }
 
 .add-data-fab {
