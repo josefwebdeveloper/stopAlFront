@@ -1,37 +1,22 @@
 import { Component } from '@angular/core';
-import {
-  MatCard,
-  MatCardActions,
-  MatCardContent,
-  MatCardHeader,
-  MatCardSubtitle,
-  MatCardTitle
-} from '@angular/material/card';
-import {MatButton} from '@angular/material/button';
-import {AuthService} from '../../services/auth.service';
-import {MatIcon} from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
+  template: `
+    <div>
+      <h1>Login</h1>
+      <button (click)="login()">Login with Google</button>
+    </div>
+  `,
   standalone: true,
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
-    MatCardActions,
-    MatButton,
-    MatIcon,
-    MatCardSubtitle,
-    MatCardTitle
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  imports: [CommonModule]
 })
 export class LoginComponent {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
-  loginWithGoogle() {
+  login() {
     this.authService.loginWithGoogle();
   }
 }

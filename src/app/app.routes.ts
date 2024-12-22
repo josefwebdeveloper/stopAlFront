@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
-import {LoginComponent} from './pages/login/login.component';
+import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: 'auth-callback', component: AuthCallbackComponent },
+  { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
+  // Redirect to login by default
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent) },
 ];
