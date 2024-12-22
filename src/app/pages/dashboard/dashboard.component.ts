@@ -25,24 +25,25 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Uncomment if you want to load existing entries on init:
     // this.loadDashboardData();
   }
 
   private loadDashboardData() {
-    // this.authService.getEntries().subscribe({
-    //   next: (entries: EntryData[]) => {
-    //     this.dashboardData = entries;
-    //     console.log('Loaded entries:', entries);
-    //   },
-    //   error: (error) => {
-    //     console.error('Error loading entries:', error);
-    //     if (error.status === 401) {
-    //       // Handle unauthorized error - maybe redirect to login
-    //       console.log('User not authenticated, redirecting to login...');
-    //       this.authService.loginWithGoogle();
-    //     }
-    //   }
-    // });
+    this.authService.getEntries().subscribe({
+      next: (entries: EntryData[]) => {
+        this.dashboardData = entries;
+        console.log('Loaded entries:', entries);
+      },
+      error: (error) => {
+        console.error('Error loading entries:', error);
+        if (error.status === 401) {
+          // Handle unauthorized error - maybe redirect to login
+          console.log('User not authenticated, redirecting to login...');
+          this.authService.loginWithGoogle();
+        }
+      }
+    });
   }
 
   openAddDataPopup() {
