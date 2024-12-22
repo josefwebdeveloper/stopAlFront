@@ -18,7 +18,9 @@ export class AuthCallbackComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
+      console.log('Query params:', params);
       if (params['user']) {
+        console.log('User authenticated:', params['user']);
         const userInfo = JSON.parse(decodeURIComponent(params['user']));
         console.log(userInfo);
         this.authService.setUser(userInfo);
