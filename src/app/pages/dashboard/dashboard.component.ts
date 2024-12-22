@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { AddDataPopupComponent } from '../../components/add-data-popup/add-data-popup.component';
 import { AuthService } from '../../services/auth.service';
 import { Entry, EntryData } from '../../interfaces/entry-data.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +23,7 @@ import { Entry, EntryData } from '../../interfaces/entry-data.interface';
     MatCardModule
   ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   entries: Entry[] = [];
   latestEntry?: Entry;
   totalEarned = 0;
@@ -28,14 +31,12 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private authService: AuthService
-  ) {}
-
-  ngOnInit() {
-    this.loadDashboardData();
-  }
-
-  loadDashboardData() {
-    this.authService.getEntries().subscribe({
+  ) {
+    interval(10000).pipe(
+      startWith(0),
+      switchMap(() => this.authService.getEntries()),
+      takeUntilDestroyed()
+    ).subscribe({
       next: (data: EntryData) => {
         this.entries = data.entries;
         this.latestEntry = data.entries[0];
@@ -56,11 +57,14 @@ export class DashboardComponent implements OnInit {
       width: '400px'
     });
 
-    dialogRef.afterClosed().subscribe((result: Entry | undefined) => {
+    dialogRef.afterClosed().pipe(
+      takeUntilDestroyed()
+    ).subscribe((result: Entry | undefined) => {
       if (result) {
-        this.authService.addEntry(result).subscribe({
+        this.authService.addEntry(result).pipe(
+          takeUntilDestroyed()
+        ).subscribe({
           next: () => {
-            this.loadDashboardData();
           },
           error: (error) => {
             console.error('Error adding entry:', error);
