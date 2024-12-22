@@ -23,7 +23,29 @@ export class HeaderComponent {
   @Output() toggleSidenav = new EventEmitter<void>();
   authService=inject(AuthService);
   user$ = this.authService.user$;
+  isFullscreen = false;
 
+  async toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      try {
+        await document.documentElement.requestFullscreen();
+        this.isFullscreen = true;
+      } catch (err) {
+        console.error('Error attempting to enable fullscreen:', err);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+        this.isFullscreen = false;
+      }
+    }
+  }
+
+  constructor() {
+    document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
+  }
 
   login() {
     this.authService.loginWithGoogle();

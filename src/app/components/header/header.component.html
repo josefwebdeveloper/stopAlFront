@@ -8,6 +8,10 @@
     </div>
 
     <div class="right-section">
+      <button mat-icon-button (click)="toggleFullscreen()" class="fullscreen-button">
+        <mat-icon>{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+      </button>
+
       <ng-container *ngIf="user$ | async as user; else loginButton">
         <span class="user-name">{{ user.displayName }}</span>
         <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
