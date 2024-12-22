@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 interface User {
   id: string;
@@ -15,7 +16,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     // Check localStorage on service initialization
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
@@ -41,5 +42,9 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return this.userSubject.value !== null;
+  }
+
+  addEntry(entryData: any) {
+    return this.http.post('/api/entry', entryData, { withCredentials: true });
   }
 } 

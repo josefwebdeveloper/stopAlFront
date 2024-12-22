@@ -1,0 +1,16 @@
+.add-data-popup {
+  padding: 20px;
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    .button-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  }
+} 
