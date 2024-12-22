@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AddDataPopupComponent } from '../../components/add-data-popup/add-data-popup.component';
 import { AuthService } from '../../services/auth.service';
-import { EntryData } from '../../services/auth.service';
+import { EntryData } from '../../interfaces/entry-data.interface';
 
 @Component({
   selector: 'app-dashboard',

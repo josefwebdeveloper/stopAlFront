@@ -3,18 +3,13 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from '../../environments/environment';
+import { EntryData } from '../interfaces/entry-data.interface';
 
 interface User {
   id: string;
   displayName: string;
   email?: string;
   photoURL?: string;
-}
-
-interface EntryData {
-  title?: string;
-  content?: string;
-  // ... other properties
 }
 
 @Injectable({
