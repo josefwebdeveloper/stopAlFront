@@ -20,6 +20,7 @@ export class AuthCallbackComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['user']) {
         const userInfo = JSON.parse(decodeURIComponent(params['user']));
+        console.log(userInfo);
         this.authService.setUser(userInfo);
         this.router.navigate(['/profile']);
       } else {
@@ -27,4 +28,4 @@ export class AuthCallbackComponent implements OnInit {
       }
     });
   }
-} 
+}
