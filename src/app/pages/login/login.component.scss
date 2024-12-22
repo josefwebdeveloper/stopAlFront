@@ -1,0 +1,58 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1976d2 0%, #64b5f6 100%);
+  padding: 20px;
+}
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 40px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+  margin: 30px 0;
+}
+
+.app-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.description {
+  color: rgba(0,0,0,0.6);
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.google-btn {
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+mat-icon {
+  width: 24px;
+  height: 24px;
+}
+
+mat-card-title {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+mat-card-subtitle {
+  font-size: 16px;
+  margin-bottom: 24px;
+}
