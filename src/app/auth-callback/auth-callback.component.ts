@@ -24,7 +24,7 @@ export class AuthCallbackComponent implements OnInit {
         const userInfo = JSON.parse(decodeURIComponent(params['user']));
         console.log(userInfo);
         this.authService.setUser(userInfo);
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/dashboard']);
       } else {
         this.router.navigate(['/login']);
       }
