@@ -1,0 +1,30 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.sidenav-container {
+  flex: 1;
+  margin-top: 64px; // Height of the toolbar
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.sidenav-content {
+  padding: 20px;
+}
+
+mat-toolbar h1 {
+  margin-left: 16px;
+}
