@@ -1,31 +1,36 @@
-<mat-toolbar color="primary" class="header">
-  <button mat-icon-button (click)="toggleSidenav.emit()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  
-  <span class="logo" routerLink="/dashboard">StopAlcohol</span>
-  
-  <span class="spacer"></span>
-  
-  <ng-container *ngIf="authService.user$ | async as user">
-    <button mat-button [matMenuTriggerFor]="userMenu" class="user-button mdc-button">
-      <span class="mdc-button__label">
-        <img [src]="user.photoURL" 
-             [alt]="user.displayName" 
-             class="user-avatar">
-        {{ user.displayName }}
-      </span>
-    </button>
-    
-    <mat-menu #userMenu="matMenu">
-      <button mat-menu-item routerLink="/profile">
-        <mat-icon>account_circle</mat-icon>
-        <span>Profile</span>
+<mat-toolbar class="header">
+  <div class="header-content">
+    <div class="left-section">
+      <button mat-icon-button (click)="toggleSidenav.emit()">
+        <mat-icon>menu</mat-icon>
       </button>
-      <button mat-menu-item (click)="onLogout()">
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Logout</span>
-      </button>
-    </mat-menu>
-  </ng-container>
+      <span class="app-title">StopAl</span>
+    </div>
+
+    <div class="right-section">
+      <ng-container *ngIf="user$ | async as user; else loginButton">
+        <span class="user-name">{{ user.displayName }}</span>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
+          <img [src]="user.photoURL" alt="user avatar" class="user-avatar" 
+               *ngIf="user.photoURL; else userIcon">
+          <ng-template #userIcon>
+            <mat-icon>account_circle</mat-icon>
+          </ng-template>
+        </button>
+        <mat-menu #userMenu="matMenu" class="user-menu">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+
+      <ng-template #loginButton>
+        <button mat-button (click)="login()" class="login-button">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+      </ng-template>
+    </div>
+  </div>
 </mat-toolbar> 

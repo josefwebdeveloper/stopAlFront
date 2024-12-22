@@ -1,30 +1,23 @@
-<app-header></app-header>
-
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="side" opened class="sidenav">
-    <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard">
+<mat-sidenav-container class="app-container">
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list class="nav-list">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
         <mat-icon>dashboard</mat-icon>
-        <span>Dashboard</span>
+        Dashboard
       </a>
-      <a mat-list-item routerLink="/analytics">
-        <mat-icon>analytics</mat-icon>
-        <span>Analytics</span>
-      </a>
-      <a mat-list-item routerLink="/profile">
+      <a mat-list-item routerLink="/profile" routerLinkActive="active">
         <mat-icon>person</mat-icon>
-        <span>Profile</span>
+        Profile
       </a>
-      <a mat-list-item routerLink="/settings">
+      <a mat-list-item routerLink="/settings" routerLinkActive="active">
         <mat-icon>settings</mat-icon>
-        <span>Settings</span>
+        Settings
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
+    <app-header (toggleSidenav)="sidenav.toggle()"></app-header>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
