@@ -1,11 +1,23 @@
 import { Routes } from '@angular/router';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
+import { AuthGuard } from './guards/auth.guard';
+import {LoginComponent} from './pages/login/login.component';
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
+import {ProfileComponent} from './pages/profile/profile.component';
 
 export const routes: Routes = [
-  { path: 'auth-callback', component: AuthCallbackComponent },
-  {path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent)},
-  { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
-  // Redirect to login by default
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'profile', loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent) },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'auth-callback', component: AuthCallbackComponent },
+  { path: '**', redirectTo: '/login' }
 ];
