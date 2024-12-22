@@ -1,4 +1,4 @@
-export interface EntryData {
+export interface Entry {
   id?: string;
   weight?: number;
   sleep?: number;
@@ -9,4 +9,8 @@ export interface EntryData {
   userId?: string;
   createdAt?: Date;
   updatedAt?: Date;
-} 
+}
+export interface EntryData {
+  entries: Entry[];
+  totalEarned: number;
+}

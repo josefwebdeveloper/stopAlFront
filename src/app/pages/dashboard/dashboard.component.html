@@ -7,7 +7,7 @@
       </mat-card-header>
       <mat-card-content>
         <div class="metric-value">
-          {{ latestEntry?.weight || 0 }} kg
+          {{ latestEntry?.weight || '-' }} kg
         </div>
       </mat-card-content>
     </mat-card>
@@ -19,7 +19,7 @@
       </mat-card-header>
       <mat-card-content>
         <div class="metric-value">
-          {{ latestEntry?.activityCalories || 0 }} kcal
+          {{ latestEntry?.activityCalories || '-' }} kcal
         </div>
       </mat-card-content>
     </mat-card>
@@ -31,7 +31,7 @@
       </mat-card-header>
       <mat-card-content>
         <div class="metric-value">
-          {{ latestEntry?.sleep || 0 }} hours
+          {{ latestEntry?.sleep || '-' }} hours
         </div>
       </mat-card-content>
     </mat-card>
@@ -43,13 +43,13 @@
       </mat-card-header>
       <mat-card-content>
         <div class="metric-value">
-          {{ latestEntry?.alcohol || 0 }} units
+          {{ latestEntry?.alcohol ? 'Yes' : 'No' }}
         </div>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <button mat-fab color="primary" 
+  <button mat-fab color="primary"
           class="add-data-fab"
           (click)="openAddDataPopup()">
     <mat-icon>add</mat-icon>

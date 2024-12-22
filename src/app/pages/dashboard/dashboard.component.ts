@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { AddDataPopupComponent } from '../../components/add-data-popup/add-data-popup.component';
 import { AuthService } from '../../services/auth.service';
-import { EntryData } from '../../interfaces/entry-data.interface';
+import { Entry, EntryData } from '../../interfaces/entry-data.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,8 +21,9 @@ import { EntryData } from '../../interfaces/entry-data.interface';
   ]
 })
 export class DashboardComponent implements OnInit {
-  dashboardData: EntryData[] = [];
-  latestEntry?: EntryData;
+  entries: Entry[] = [];
+  latestEntry?: Entry;
+  totalEarned = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -35,10 +36,11 @@ export class DashboardComponent implements OnInit {
 
   loadDashboardData() {
     this.authService.getEntries().subscribe({
-      next: (entries) => {
-        this.dashboardData = entries;
-        this.latestEntry = entries[0]; // Assuming entries are sorted by date
-        console.log('Loaded entries:', entries);
+      next: (data: EntryData) => {
+        this.entries = data.entries;
+        this.latestEntry = data.entries[0];
+        this.totalEarned = data.totalEarned;
+        console.log('Latest entry:', this.latestEntry);
       },
       error: (error) => {
         console.error('Error loading entries:', error);
@@ -54,17 +56,15 @@ export class DashboardComponent implements OnInit {
       width: '400px'
     });
 
-    dialogRef.afterClosed().subscribe((result: EntryData | undefined) => {
+    dialogRef.afterClosed().subscribe((result: Entry | undefined) => {
       if (result) {
         this.authService.addEntry(result).subscribe({
-          next: (response) => {
-            console.log('Entry added successfully:', response);
+          next: () => {
             this.loadDashboardData();
           },
           error: (error) => {
             console.error('Error adding entry:', error);
             if (error.status === 401) {
-              // Not authenticated
               this.authService.loginWithGoogle();
             }
           }

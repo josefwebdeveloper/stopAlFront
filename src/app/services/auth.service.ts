@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { EntryData } from '../interfaces/entry-data.interface';
+import { Entry, EntryData } from '../interfaces/entry-data.interface';
 
 interface User {
   id: string;
@@ -57,18 +57,18 @@ export class AuthService {
     });
   }
 
-  addEntry(entryData: EntryData): Observable<EntryData> {
-    return this.http.post<EntryData>(
+  addEntry(entry: Entry): Observable<Entry> {
+    return this.http.post<Entry>(
       `${environment.apiUrl}/api/entry`,
-      entryData,
+      entry,
       {
         headers: this.getAuthHeaders(),
       }
     );
   }
 
-  getEntries(): Observable<EntryData[]> {
-    return this.http.get<EntryData[]>(
+  getEntries(): Observable<EntryData> {
+    return this.http.get<EntryData>(
       `${environment.apiUrl}/api/entries`,
       {
         headers: this.getAuthHeaders(),
