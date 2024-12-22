@@ -6,6 +6,7 @@ import {MatInput} from '@angular/material/input';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatButton} from '@angular/material/button';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 @Component({
   selector: 'app-add-data-popup',
@@ -22,6 +23,9 @@ import {MatButton} from '@angular/material/button';
     MatDatepicker,
     MatButton,
     MatLabel
+  ],
+  providers: [
+    provideNativeDateAdapter()
   ],
   styleUrls: ['./add-data-popup.component.scss']
 })
