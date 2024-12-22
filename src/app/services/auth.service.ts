@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import {environment} from '../../environments/environment';
 import { EntryData } from '../interfaces/entry-data.interface';
 
@@ -51,6 +50,13 @@ export class AuthService {
     return this.http.post<EntryData>(
       `${environment.apiUrl}/api/entry`,
       entryData,
+      { withCredentials: true }
+    );
+  }
+
+  getEntries(): Observable<EntryData[]> {
+    return this.http.get<EntryData[]>(
+      `${environment.apiUrl}/api/entries`,
       { withCredentials: true }
     );
   }

@@ -29,10 +29,20 @@ export class DashboardComponent implements OnInit {
   }
 
   private loadDashboardData() {
-    // TODO: Implement getEntries endpoint and service method
-    // this.authService.getEntries().subscribe((entries: EntryData[]) => {
-    //   this.dashboardData = entries;
-    // });
+    this.authService.getEntries().subscribe({
+      next: (entries: EntryData[]) => {
+        this.dashboardData = entries;
+        console.log('Loaded entries:', entries);
+      },
+      error: (error) => {
+        console.error('Error loading entries:', error);
+        if (error.status === 401) {
+          // Handle unauthorized error - maybe redirect to login
+          console.log('User not authenticated, redirecting to login...');
+          this.authService.loginWithGoogle();
+        }
+      }
+    });
   }
 
   openAddDataPopup() {
@@ -49,7 +59,10 @@ export class DashboardComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error adding entry:', error);
-            // TODO: Add error handling/user notification
+            if (error.status === 401) {
+              // Handle unauthorized error
+              this.authService.loginWithGoogle();
+            }
           }
         });
       }
