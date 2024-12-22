@@ -1,4 +1,19 @@
 <div class="dashboard-container">
+  <!-- Total Earned Card - Add this before widget-grid -->
+  <mat-card class="total-earned-card">
+    <mat-card-content>
+      <div class="earned-content">
+        <div class="earned-icon">
+          <mat-icon>savings</mat-icon>
+        </div>
+        <div class="earned-details">
+          <span class="earned-label">Total Earned</span>
+          <span class="earned-value">₪{{ totalEarned | number:'1.0-0' }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <div class="widget-grid">
     <!-- Weight Card -->
     <mat-card class="widget-card weight-card">

@@ -16,6 +16,7 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
   padding-bottom: 80px;
+  margin-top: 24px;
 }
 
 .widget-card {
@@ -72,4 +73,82 @@
   bottom: 32px;
   right: 32px;
   z-index: 100;
+}
+
+.total-earned-card {
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #2d2235 0%, #e53935 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  
+  .earned-content {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    gap: 24px;
+  }
+
+  .earned-icon {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: #fff;
+    }
+  }
+
+  .earned-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .earned-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .earned-value {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Add media query for better mobile display
+@media (max-width: 600px) {
+  .total-earned-card {
+    .earned-content {
+      padding: 16px;
+      gap: 16px;
+    }
+
+    .earned-icon {
+      width: 48px;
+      height: 48px;
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .earned-value {
+      font-size: 2rem;
+    }
+  }
 }

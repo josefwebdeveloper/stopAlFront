@@ -25,12 +25,16 @@
   align-items: center;
   gap: 16px;
 
-  .app-title {
-    font-size: 1.5rem;
-    font-weight: 500;
-    background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .app-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    transition: opacity 0.2s;
+    border-radius: 50%;
+    
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
