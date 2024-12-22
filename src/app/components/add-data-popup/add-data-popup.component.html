@@ -1,41 +1,43 @@
 <div class="add-data-popup">
   <h2 mat-dialog-title>Add New Entry</h2>
-  
-  <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <mat-label>Weight (kg)</mat-label>
-      <input matInput type="number" formControlName="weight">
-    </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Sleep (hours)</mat-label>
-      <input matInput type="number" formControlName="sleep">
-    </mat-form-field>
+  <mat-dialog-content>
+    <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Weight (kg)</mat-label>
+        <input matInput type="string" formControlName="weight" placeholder="Enter weight">
+      </mat-form-field>
 
-    <mat-checkbox formControlName="alcohol">
-      Alcohol Consumed
-    </mat-checkbox>
+      <mat-form-field appearance="outline">
+        <mat-label>Sleep (hours)</mat-label>
+        <input matInput type="string" formControlName="sleep" placeholder="Enter sleep hours">
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Alcohol Price</mat-label>
-      <input matInput type="number" formControlName="alcoholPrice">
-    </mat-form-field>
+      <mat-checkbox formControlName="alcohol">
+        Alcohol Consumed
+      </mat-checkbox>
 
-    <mat-form-field>
-      <mat-label>Activity Calories</mat-label>
-      <input matInput type="number" formControlName="activityCalories">
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Alcohol Price</mat-label>
+        <input matInput type="string" formControlName="alcoholPrice" placeholder="Enter price">
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Activity Calories</mat-label>
+        <input matInput type="string" formControlName="activityCalories" placeholder="Enter calories">
+      </mat-form-field>
 
-    <div class="button-row">
-      <button mat-button type="button" (click)="onCancel()">Cancel</button>
-      <button mat-raised-button color="primary" type="submit">Save</button>
-    </div>
-  </form>
-</div> 
+      <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+  </mat-dialog-actions>
+</div>

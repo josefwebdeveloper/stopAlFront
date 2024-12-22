@@ -1,31 +1,29 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {MatCheckbox} from '@angular/material/checkbox';
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
-import {MatButton} from '@angular/material/button';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogTitle, MatDialogModule, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-data-popup',
   templateUrl: './add-data-popup.component.html',
   standalone: true,
   imports: [
-    MatDialogTitle,
     ReactiveFormsModule,
-    MatFormField,
-    MatInput,
-    MatCheckbox,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatDatepicker,
-    MatButton,
-    MatLabel
-  ],
-  providers: [
-    provideNativeDateAdapter()
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    MatNativeDateModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions
   ],
   styleUrls: ['./add-data-popup.component.scss']
 })

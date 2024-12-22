@@ -1,16 +1,149 @@
 .add-data-popup {
-  padding: 20px;
-  
+  padding: 24px;
+  background: #1e1e2d;
+  min-width: 320px;
+
+  h2 {
+    color: white;
+    font-size: 20px;
+    margin: 0 0 24px 0;
+    font-weight: 500;
+  }
+
   form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+  }
+}
+
+::ng-deep {
+  .mdc-dialog__surface {
+    background: #1e1e2d !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: #1e1e2d;
+    border-radius: 16px;
+
+    .mdc-dialog__surface {
+      border-radius: 16px;
+    }
+  }
+
+  .mat-mdc-form-field {
+    .mdc-text-field--outlined {
+      --mdc-outlined-text-field-container-color: #2b2b40;
+      --mdc-outlined-text-field-outline-color: #2b2b40;
+      --mdc-outlined-text-field-focus-outline-color: #2b2b40;
+      --mdc-outlined-text-field-hover-outline-color: #2b2b40;
+      background: #2b2b40;
+      border-radius: 8px;
+    }
+
+    .mat-mdc-form-field-flex {
+      border-radius: 8px;
+    }
+
+    .mdc-floating-label, .mat-mdc-input-element {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    .mdc-floating-label--float-above {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+  }
+
+  .mat-mdc-checkbox {
+    --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.7);
+    --mdc-checkbox-unselected-focus-icon-color: rgba(255, 255, 255, 0.7);
+    --mdc-checkbox-unselected-hover-icon-color: rgba(255, 255, 255, 0.7);
+    --mdc-checkbox-selected-icon-color: #3699ff;
+    --mdc-checkbox-selected-focus-icon-color: #3699ff;
+    --mdc-checkbox-selected-hover-icon-color: #3699ff;
     
-    .button-row {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 16px;
+    .mdc-checkbox__background {
+      border-radius: 4px;
+    }
+
+    .mdc-form-field > label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .mat-datepicker-content {
+    background: #1e1e2d;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .mat-calendar {
+    background: #1e1e2d;
+    color: white;
+
+    .mat-calendar-table-header {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mat-calendar-body-label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mat-calendar-body-cell-content {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mat-calendar-body-selected {
+      background-color: #3699ff;
+      color: white;
+    }
+
+    .mat-calendar-arrow {
+      fill: rgba(255, 255, 255, 0.7);
+    }
+
+    .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .mat-calendar-previous-button,
+    .mat-calendar-next-button,
+    .mat-calendar-period-button {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .mat-datepicker-toggle {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+mat-dialog-actions {
+  padding: 24px 0 0 0;
+  margin: 0;
+  gap: 12px;
+  justify-content: flex-end;
+
+  button {
+    min-width: 100px;
+    border-radius: 6px;
+  }
+
+  button[mat-button] {
+    color: rgba(255, 255, 255, 0.7);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  button[mat-raised-button] {
+    background: #3699ff;
+    
+    &:hover {
+      background: #1e88ff;
     }
   }
 } 
