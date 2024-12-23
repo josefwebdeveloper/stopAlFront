@@ -23,6 +23,15 @@ import { IconService } from './services/icon.service';
 })
 export class AppComponent {
   title = 'stop-al-front';
+  isSidenavOpen = false;
 
   constructor(private iconService: IconService) {}
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  closeSidenav() {
+    this.isSidenavOpen = false;
+  }
 }

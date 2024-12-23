@@ -1,23 +1,23 @@
 <mat-sidenav-container class="app-container">
-  <mat-sidenav #sidenav mode="over">
+  <mat-sidenav [(opened)]="isSidenavOpen" mode="over">
     <mat-nav-list class="nav-list">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+      <a mat-list-item routerLink="/dashboard" (click)="closeSidenav()">
         <mat-icon>dashboard</mat-icon>
-        Dashboard
+        <span>Dashboard</span>
       </a>
-      <a mat-list-item routerLink="/profile" routerLinkActive="active">
+      <a mat-list-item routerLink="/profile" (click)="closeSidenav()">
         <mat-icon>person</mat-icon>
-        Profile
+        <span>Profile</span>
       </a>
-      <a mat-list-item routerLink="/settings" routerLinkActive="active">
+      <a mat-list-item routerLink="/settings" (click)="closeSidenav()">
         <mat-icon>settings</mat-icon>
-        Settings
+        <span>Settings</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
-    <app-header (toggleSidenav)="sidenav.toggle()"></app-header>
+    <app-header (toggleSidenav)="toggleSidenav()"></app-header>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

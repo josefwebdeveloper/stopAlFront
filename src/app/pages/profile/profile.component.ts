@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -83,28 +84,55 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   
   isLoading = true;
   error: string | null = null;
+  private latestWeight: number = 0;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
+  ) {
     this.resizeHandler = this.onWindowResize.bind(this);
   }
 
   ngOnInit() {}
 
   ngAfterViewInit() {
-    try {
-      this.initScene();
-      this.animate();
-      window.addEventListener('resize', this.resizeHandler);
-      
-      setTimeout(() => {
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      });
-    } catch (err) {
-      this.error = 'Failed to initialize 3D scene';
-      console.error(err);
+    if (!this.canvasRef) {
+      this.error = 'Failed to initialize canvas';
       this.cdr.detectChanges();
+      return;
     }
+
+    this.authService.getEntries().subscribe({
+      next: (data) => {
+        if (data.entries && data.entries.length > 0) {
+          this.latestWeight = Number(data.entries[0].weight) || 0;
+          try {
+            this.initScene();
+            this.animate();
+            window.addEventListener('resize', this.resizeHandler);
+            
+            setTimeout(() => {
+              this.isLoading = false;
+              this.cdr.detectChanges();
+            });
+          } catch (err) {
+            this.error = 'Failed to initialize 3D scene';
+            console.error(err);
+            this.cdr.detectChanges();
+          }
+        } else {
+          this.error = 'No weight data available';
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        this.error = 'Failed to load weight data';
+        this.isLoading = false;
+        console.error(err);
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -173,6 +201,43 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     bodyMesh.position.y = 0;
     body.add(bodyMesh);
 
+    // Add the weight number code here
+
+    // Create canvas for the weight number
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = 256;
+    canvas.height = 256;
+
+    if (context) {
+      context.fillStyle = '#ff9999';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Ensure weight is a number and format it
+      const weightText = Number(this.latestWeight).toFixed(1);
+      
+      context.font = 'bold 120px Arial';
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      context.fillStyle = '#ffffff';
+      context.fillText(weightText, canvas.width/2, canvas.height/2);
+
+      const numberTexture = new THREE.CanvasTexture(canvas);
+      
+      const numberGeometry = new THREE.PlaneGeometry(0.8, 0.8);
+      const numberMaterial = new THREE.MeshBasicMaterial({
+        map: numberTexture,
+        transparent: true,
+        opacity: 0.8
+      });
+      
+      const numberMesh = new THREE.Mesh(numberGeometry, numberMaterial);
+      numberMesh.position.set(0, 0, 1.21);
+      numberMesh.rotation.x = -0.2;
+      
+      body.add(numberMesh);
+    }
+
     // Create head (smaller sphere)
     const headGeometry = new THREE.SphereGeometry(0.6, 32, 32);
     const headMaterial = new THREE.MeshPhongMaterial({
@@ -240,6 +305,66 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     smile.rotation.x = Math.PI / 2;
     body.add(smile);
 
+    // Create tennis racket
+    const racketGroup = new THREE.Group();
+
+    // Racket head (oval shape using torus)
+    const racketHeadGeometry = new THREE.TorusGeometry(0.4, 0.03, 16, 32);
+    const racketMaterial = new THREE.MeshStandardMaterial({
+      color: 0x4169e1, // Royal blue
+      metalness: 0.5,
+      roughness: 0.5,
+    });
+    const racketHead = new THREE.Mesh(racketHeadGeometry, racketMaterial);
+
+    // Racket strings (create a grid pattern)
+    const stringMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      metalness: 0.2,
+      roughness: 0.3,
+    });
+
+    // Vertical strings
+    for (let i = -0.35; i <= 0.35; i += 0.07) {
+      const stringGeometry = new THREE.CylinderGeometry(0.005, 0.005, 0.8, 8);
+      const string = new THREE.Mesh(stringGeometry, stringMaterial);
+      string.position.set(i, 0, 0);
+      racketGroup.add(string);
+    }
+
+    // Horizontal strings
+    for (let i = -0.35; i <= 0.35; i += 0.07) {
+      const stringGeometry = new THREE.CylinderGeometry(0.005, 0.005, 0.8, 8);
+      const string = new THREE.Mesh(stringGeometry, stringMaterial);
+      string.rotation.z = Math.PI / 2;
+      string.position.set(0, i, 0);
+      racketGroup.add(string);
+    }
+
+    // Racket handle
+    const handleGeometry = new THREE.CylinderGeometry(0.03, 0.04, 0.7, 16);
+    const handleMaterial = new THREE.MeshStandardMaterial({
+      color: 0x4169e1,
+      metalness: 0.5,
+      roughness: 0.5,
+    });
+    const handle = new THREE.Mesh(handleGeometry, handleMaterial);
+    handle.position.set(0, -0.6, 0);
+    racketGroup.add(handle);
+
+    // Add racket head to group
+    racketGroup.add(racketHead);
+
+    // Position and rotate the racket
+    racketGroup.position.set(-1.8, 0.3, 0); // Position near left hand
+    racketGroup.rotation.set(0, 0, -Math.PI / 4); // Angle the racket
+
+    // Add racket to body
+    body.add(racketGroup);
+
+    // Store racket reference for animation
+    (body as any).racket = racketGroup;
+
     // Replace the cube model with our character
     this.model = body;
     this.scene.add(body);
@@ -271,6 +396,13 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
         // Add gentle swaying motion
         this.model.rotation.y += 0.01;
         this.model.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+
+        // Add racket swing animation
+        const racket = (this.model as any).racket;
+        if (racket) {
+            // Gentle swinging motion
+            racket.rotation.z = -Math.PI / 4 + Math.sin(Date.now() * 0.002) * 0.2;
+        }
     }
 
     this.controls.update();
