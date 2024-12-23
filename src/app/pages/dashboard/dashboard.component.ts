@@ -33,7 +33,7 @@ export class DashboardComponent {
     private dialog: MatDialog,
     private authService: AuthService
   ) {
-    interval(10000).pipe(
+    interval(30000).pipe(
       startWith(0),
       switchMap(() => this.authService.getEntries()),
       takeUntilDestroyed(this.destroyRef)
