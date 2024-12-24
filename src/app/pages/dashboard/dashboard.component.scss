@@ -13,8 +13,8 @@
 
 .widget-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
   padding-bottom: 80px;
   margin-top: 24px;
 }
@@ -412,5 +412,114 @@
     font-size: 1rem;
     opacity: 0.9;
     margin-top: 8px;
+  }
+}
+
+// Add tablet-specific styles
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-container {
+    padding: 16px; // Reduce padding on tablets
+  }
+
+  .widget-card {
+    // Make cards more compact on tablets
+    .mat-mdc-card-header {
+      padding: 12px;
+    }
+
+    .mat-mdc-card-title {
+      font-size: 0.9rem;
+    }
+  }
+
+  .metric-value {
+    font-size: 1.75rem; // Slightly smaller font
+    padding: 16px 0; // Reduce padding
+  }
+
+  // Adjust total earned card for tablets
+  .total-earned-card {
+    margin-bottom: 16px;
+
+    .earned-content {
+      padding: 16px;
+      gap: 16px;
+    }
+
+    .earned-icon {
+      width: 56px;
+      height: 56px;
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .earned-value {
+      font-size: 2.2rem;
+    }
+  }
+
+  // Adjust tennis card for tablets
+  .tennis-card {
+    .tennis-value {
+      font-size: 1.75rem;
+    }
+
+    &::before {
+      font-size: 100px; // Smaller background emoji
+    }
+  }
+
+  // Adjust sober card for tablets
+  .sober-card {
+    .sober-value {
+      font-size: 1.6rem;
+      padding: 12px;
+    }
+
+    &::before {
+      font-size: 100px;
+    }
+  }
+
+  // Adjust earnings cards for tablets
+  .weekly-card, .monthly-card {
+    .earnings-value {
+      gap: 8px;
+    }
+
+    .earnings-subtitle {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// Optimize money rain animation for better performance
+.money-rain {
+  .shekel {
+    will-change: transform;
+    
+    // Reduce number of keyframes for better performance
+    @keyframes rain-fall {
+      0% {
+        top: -20px;
+        transform: translateX(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        top: 120%;
+        transform: translateX(20px);
+        opacity: 0;
+      }
+    }
   }
 }
