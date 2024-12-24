@@ -12,18 +12,20 @@ html, body {
 // Custom scrollbar styles
 ::-webkit-scrollbar {
   width: 4px;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background-light);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  //background: var(--primary-color);
-  opacity: 0.5;
+  background: transparent;
+  opacity: 0;
   border-radius: 4px;
 
   &:hover {
+    background: rgba(0, 0, 0, 0.2);
     opacity: 1;
   }
 }
