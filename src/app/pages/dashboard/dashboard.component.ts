@@ -171,4 +171,20 @@ export class DashboardComponent {
     if (tennisLessons === 1) return 'One lesson earned! 🎾';
     return `${tennisLessons} tennis lessons! 🏆`;
   }
+
+  ngOnInit() {
+    // Start the money rain animation loop
+    this.startMoneyRain();
+  }
+
+  private startMoneyRain() {
+    setInterval(() => {
+      const moneyRain = document.querySelector('.money-rain') as HTMLElement;
+      if (moneyRain) {
+        moneyRain.style.animation = 'none';
+        moneyRain.offsetHeight; // Trigger reflow
+        moneyRain.style.animation = 'trigger-rain 10s infinite';
+      }
+    }, 10000); // Runs every 10 seconds
+  }
 }

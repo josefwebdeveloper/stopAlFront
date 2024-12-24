@@ -165,8 +165,69 @@
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  
+  position: relative;
+  overflow: hidden;
+
+  // Money rain container
+  .money-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+
+    .shekel {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.4);
+      animation: rain-fall 3s linear infinite;
+      
+      &:nth-child(1) {
+        left: 20%;
+        font-size: 24px;
+        animation-delay: 0s;
+      }
+      &:nth-child(2) {
+        left: 40%;
+        font-size: 28px;
+        animation-delay: 0.5s;
+      }
+      &:nth-child(3) {
+        left: 60%;
+        font-size: 32px;
+        animation-delay: 1s;
+      }
+      &:nth-child(4) {
+        left: 80%;
+        font-size: 26px;
+        animation-delay: 1.5s;
+      }
+      &:nth-child(5) {
+        left: 30%;
+        font-size: 30px;
+        animation-delay: 2s;
+      }
+    }
+  }
+
+  // Background shekel symbols
+  &::before {
+    content: "₪";
+    position: absolute;
+    font-size: 200px;
+    font-weight: bold;
+    opacity: 0.1;
+    right: -20px;
+    bottom: -50px;
+    transform: rotate(-15deg);
+    font-family: Arial, sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
   .earned-content {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     padding: 24px;
@@ -210,6 +271,53 @@
     letter-spacing: -0.5px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
+
+  @keyframes rain-fall {
+    0% {
+      top: -20px;
+      transform: translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      top: 120%;
+      transform: translateX(30px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+}
+
+// Add this new animation for the automatic rain trigger
+@keyframes trigger-rain {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// Add the automatic rain animation
+.money-rain {
+  animation: trigger-rain 10s infinite;
+}
+
+// Add new animations
+@keyframes bounce-rotate {
+  0% { transform: scale(1.1) rotate(0deg); }
+  25% { transform: scale(1.15) rotate(10deg); }
+  75% { transform: scale(1.15) rotate(-10deg); }
+  100% { transform: scale(1.1) rotate(0deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 // Add media query for better mobile display
