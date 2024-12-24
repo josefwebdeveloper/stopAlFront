@@ -26,12 +26,12 @@
   gap: 16px;
 
   .app-logo {
-    height: 40px;
-    width: auto;
+    height:100%;
+    width: 258px;
     object-fit: contain;
     transition: opacity 0.2s;
-    border-radius: 50%;
-    
+    border-radius: 10px;
+
     &:hover {
       opacity: 0.8;
     }
@@ -75,7 +75,7 @@
   border-radius: 20px;
   padding: 0 16px;
   height: 36px;
-  
+
   mat-icon {
     margin-right: 8px;
   }
@@ -89,14 +89,14 @@
   background: rgba(45, 45, 68, 0.98);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  
+
   .mat-mdc-menu-content {
     padding: 0;
   }
 
   .mat-mdc-menu-item {
     color: white;
-    
+
     mat-icon {
       color: rgba(255, 255, 255, 0.7);
     }
@@ -105,7 +105,7 @@
       background: rgba(255, 255, 255, 0.1);
     }
   }
-} 
+}
 
 .fullscreen-button {
   color: rgba(255, 255, 255, 0.7);
@@ -114,4 +114,4 @@
   &:hover {
     color: white;
   }
-} 
+}
