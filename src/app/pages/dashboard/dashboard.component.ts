@@ -87,7 +87,12 @@ export class DashboardComponent {
 
   get tennisLessonsFuture(): string {
     const lessons = Math.floor(this.totalEarned / this.TENNIS_LESSON_COST);
-    return `${lessons} 🎾`;
+    if (lessons === 0) return "Need more 💰 for 🎾!";
+    if (lessons === 1) return "1 lesson... Just getting started! 🎾";
+    if (lessons <= 3) return `${lessons} 🎾 (Novice mode)`;
+    if (lessons <= 5) return `${lessons} 🎾 (Getting better!)`;
+    if (lessons <= 10) return `${lessons} 🎾 (Future champion!)`;
+    return `${lessons} 🎾 WIMBLEDON HERE WE COME! 🏆`;
   }
 
   get bmi(): number | null {
@@ -99,10 +104,10 @@ export class DashboardComponent {
   }
 
   get bmiCategory(): string {
-    if (!this.bmi) return '-';
-    if (this.bmi < 18.5) return 'Underweight 🏃';
-    if (this.bmi < 25) return 'Normal 💪';
-    if (this.bmi < 30) return 'Overweight 🍔';
-    return 'Obese 🏋️';
+    if (!this.bmi) return 'Step on the scale! ⚖️';
+    if (this.bmi < 18.5) return 'Feather mode 🪶';
+    if (this.bmi < 25) return 'Perfect like a tennis serve! 🎯';
+    if (this.bmi < 30) return 'Time to chase some tennis balls! 🎾';
+    return 'Extra power in your serve! 💪';
   }
 }
