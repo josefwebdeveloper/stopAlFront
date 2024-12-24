@@ -1,0 +1,27 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background: url('/assets/sport.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    .settings-content {
+        position: relative;
+        z-index: 2;
+        padding: 2rem;
+        color: #fff;
+    }
+}
