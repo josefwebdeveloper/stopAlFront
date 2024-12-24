@@ -110,4 +110,65 @@ export class DashboardComponent {
     if (this.bmi < 30) return 'Time to chase some tennis balls! 🎾';
     return 'Extra power in your serve! 💪';
   }
+
+  get daysWithoutAlcohol(): number {
+    let consecutiveDays = 0;
+    for (const entry of this.entries) {
+      if (!entry.alcohol) {
+        consecutiveDays++;
+      } else {
+        break;
+      }
+    }
+    return consecutiveDays;
+  }
+
+  get weeklyEarnings(): number {
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    
+    return this.entries
+      .filter(entry => {
+        const entryDate = new Date(entry.date);
+        return entryDate >= oneWeekAgo;
+      })
+      .reduce((sum, entry) => sum + (entry.earned || 0), 0);
+  }
+
+  get monthlyEarnings(): number {
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+    
+    return this.entries
+      .filter(entry => {
+        const entryDate = new Date(entry.date);
+        return entryDate >= oneMonthAgo;
+      })
+      .reduce((sum, entry) => sum + (entry.earned || 0), 0);
+  }
+
+  get soberMessage(): string {
+    if (this.daysWithoutAlcohol === 0) return "Time to start fresh! 💫";
+    if (this.daysWithoutAlcohol === 1) return "Day 1! The journey begins! 🌱";
+    if (this.daysWithoutAlcohol <= 3) return `${this.daysWithoutAlcohol} days - You're on fire! 🔥`;
+    if (this.daysWithoutAlcohol <= 5) return `${this.daysWithoutAlcohol} days - Unstoppable! 🚀`;
+    if (this.daysWithoutAlcohol <= 7) return `${this.daysWithoutAlcohol} days - Superstar! ⭐`;
+    if (this.daysWithoutAlcohol <= 14) return `${this.daysWithoutAlcohol} days - Legendary! 👑`;
+    return `${this.daysWithoutAlcohol} days - GODLIKE! 🌟✨`;
+  }
+
+  get weeklyTrendEmoji(): string {
+    if (this.weeklyEarnings === 0) return '📊';
+    if (this.weeklyEarnings < 100) return '📈';
+    if (this.weeklyEarnings < 200) return '🚀';
+    return '💫';
+  }
+
+  get monthlyMessage(): string {
+    const tennisLessons = Math.floor(this.monthlyEarnings / this.TENNIS_LESSON_COST);
+    if (this.monthlyEarnings === 0) return 'Let\'s get started! 📊';
+    if (tennisLessons === 0) return 'Almost a tennis lesson! 🎾';
+    if (tennisLessons === 1) return 'One lesson earned! 🎾';
+    return `${tennisLessons} tennis lessons! 🏆`;
+  }
 }

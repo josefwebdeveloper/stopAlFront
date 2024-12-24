@@ -35,6 +35,52 @@
       </mat-card-content>
     </mat-card>
 
+    <!-- Sober Streak Card -->
+    <mat-card class="widget-card sober-card">
+      <mat-card-header>
+        <mat-card-title>Sober Streak</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value sober-value">
+          {{ soberMessage }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Weekly Earnings Card -->
+    <mat-card class="widget-card weekly-card">
+      <mat-card-header>
+        <mat-card-title>This Week</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value earnings-value">
+          ₪{{ weeklyEarnings | number:'1.0-0' }}
+          <div class="earnings-subtitle">
+            <span class="trend-indicator">
+              {{ weeklyTrendEmoji }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Monthly Earnings Card -->
+    <mat-card class="widget-card monthly-card">
+      <mat-card-header>
+        <mat-card-title>This Month</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value earnings-value">
+          ₪{{ monthlyEarnings | number:'1.0-0' }}
+          <div class="earnings-subtitle">
+            <span class="trend-indicator">
+              {{ monthlyMessage }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
     <!-- BMI Card -->
     <mat-card class="widget-card bmi-card">
       <mat-card-header>

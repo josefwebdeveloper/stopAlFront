@@ -236,3 +236,73 @@
     }
   }
 }
+
+// Add these new styles after your existing card styles
+
+.sober-card {
+  background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: "✨";
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.1;
+    right: -20px;
+    bottom: -20px;
+    transform: rotate(-15deg);
+  }
+  
+  .sober-value {
+    font-size: 1.8rem;
+    padding: 16px;
+    text-align: center;
+    
+    @keyframes celebrate {
+      0% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.05) rotate(2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    
+    &:hover {
+      animation: celebrate 1s ease infinite;
+    }
+  }
+}
+
+.weekly-card, .monthly-card {
+  background: linear-gradient(135deg, #00695c 0%, #004d40 100%);
+  
+  .earnings-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .earnings-subtitle {
+    font-size: 1.2rem;
+    
+    .trend-indicator {
+      @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(5deg); }
+        100% { transform: translateY(0) rotate(0deg); }
+      }
+      
+      display: inline-block;
+      animation: float 2s ease infinite;
+    }
+  }
+}
+
+.monthly-card {
+  background: linear-gradient(135deg, #006064 0%, #00363a 100%);
+  
+  .trend-indicator {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 8px;
+  }
+}

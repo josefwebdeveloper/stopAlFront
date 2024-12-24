@@ -1,16 +1,20 @@
 export interface Entry {
-  id?: string;
+  id: string;
   weight?: number;
-  sleep?: number;
-  alcohol?: number;
-  alcoholPrice?: number;
-  activityCalories?: number;
-  date?: Date;
-  userId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  sleep?: string | null;
+  alcohol: boolean;
+  alcoholPrice?: string | number;
+  activityCalories?: string | number;
+  foodCalories?: number;
+  earned?: number;
+  date: string;  // ISO date string
+  createdAt: string;
+  updatedAt?: string;
+  bmi?: number;
 }
+
 export interface EntryData {
   entries: Entry[];
   totalEarned: number;
+  totalDaysWithoutAlcohol: number;
 }
