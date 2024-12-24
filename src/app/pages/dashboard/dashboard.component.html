@@ -15,6 +15,36 @@
   </mat-card>
 
   <div class="widget-grid">
+    <!-- Tennis Lessons Card -->
+    <mat-card class="widget-card tennis-card">
+      <mat-card-header>
+        <mat-card-title>Future Tennis Lessons</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value tennis-value">
+          {{ tennisLessonsFuture }}
+          <div class="tennis-subtitle">
+            (₪{{ TENNIS_LESSON_COST }} each)
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- BMI Card -->
+    <mat-card class="widget-card bmi-card">
+      <mat-card-header>
+        <mat-card-title>BMI</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="metric-value">
+          {{ bmi || '-' }}
+          <div class="bmi-category">
+            {{ bmiCategory }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
     <!-- Weight Card -->
     <mat-card class="widget-card weight-card">
       <mat-card-header>

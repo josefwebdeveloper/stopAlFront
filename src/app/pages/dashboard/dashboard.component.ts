@@ -29,6 +29,7 @@ export class DashboardComponent {
   totalEarned = 0;
   private readonly destroyRef = inject(DestroyRef);
   private refreshTrigger = new BehaviorSubject<void>(undefined);
+  readonly TENNIS_LESSON_COST = 200;
 
   constructor(
     private dialog: MatDialog,
@@ -82,5 +83,26 @@ export class DashboardComponent {
         });
       }
     });
+  }
+
+  get tennisLessonsFuture(): string {
+    const lessons = Math.floor(this.totalEarned / this.TENNIS_LESSON_COST);
+    return `${lessons} 🎾`;
+  }
+
+  get bmi(): number | null {
+    if (!this.latestEntry?.weight) return null;
+    // Assuming height is in meters and stored in the user profile
+    // For now, let's use a default height of 1.75m
+    const height = 1.75; // This should ideally come from user profile
+    return Number((this.latestEntry.weight / (height * height)).toFixed(1));
+  }
+
+  get bmiCategory(): string {
+    if (!this.bmi) return '-';
+    if (this.bmi < 18.5) return 'Underweight 🏃';
+    if (this.bmi < 25) return 'Normal 💪';
+    if (this.bmi < 30) return 'Overweight 🍔';
+    return 'Obese 🏋️';
   }
 }
