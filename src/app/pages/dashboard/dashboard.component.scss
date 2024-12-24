@@ -32,22 +32,26 @@
   }
 
   .mat-mdc-card-header {
-    padding: 16px;
+    padding: 12px 16px;
     color: white;
   }
 
   .mat-mdc-card-title {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
+  }
+
+  .mat-mdc-card-content {
+    padding-bottom: 12px;
   }
 }
 
 .metric-value {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: bold;
   text-align: center;
-  padding: 20px 0;
+  padding: 12px 0;
   color: white;
 }
 
@@ -84,7 +88,7 @@
   }
   
   .tennis-value {
-    font-size: 2rem;
+    font-size: 1.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,7 +109,7 @@
   }
   
   .tennis-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     opacity: 0.9;
     font-weight: normal;
     text-align: center;
@@ -114,10 +118,11 @@
   .tennis-cost {
     color: #a5d6a7;
     font-weight: 500;
+    font-size: 0.8rem;
   }
   
   .tennis-motivation {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     margin-top: 4px;
     color: #e8f5e9;
   }
@@ -137,7 +142,7 @@
   background: linear-gradient(135deg, #2d2d4a 0%, #4a4a7a 100%);
   
   .bmi-category {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-top: 8px;
     font-weight: normal;
     
@@ -160,7 +165,7 @@
 }
 
 .total-earned-card {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   background: linear-gradient(135deg, #2d2235 0%, #e53935 100%);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -230,24 +235,24 @@
     z-index: 2;
     display: flex;
     align-items: center;
-    padding: 24px;
-    gap: 24px;
+    padding: 16px 24px;
+    gap: 16px;
   }
 
   .earned-icon {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 50%;
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     
     mat-icon {
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
       color: #fff;
     }
   }
@@ -260,13 +265,13 @@
 
   .earned-label {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
   }
 
   .earned-value {
     color: white;
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     font-weight: bold;
     letter-spacing: -0.5px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -363,8 +368,8 @@
   }
   
   .sober-value {
-    font-size: 1.8rem;
-    padding: 16px;
+    font-size: 1.6rem;
+    padding: 12px;
     text-align: center;
     
     @keyframes celebrate {
@@ -390,7 +395,7 @@
   }
   
   .earnings-subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     
     .trend-indicator {
       @keyframes float {
@@ -409,7 +414,7 @@
   background: linear-gradient(135deg, #006064 0%, #00363a 100%);
   
   .trend-indicator {
-    font-size: 1rem;
+    font-size: 0.9rem;
     opacity: 0.9;
     margin-top: 8px;
   }
@@ -424,75 +429,96 @@
   .widget-card {
     // Make cards more compact on tablets
     .mat-mdc-card-header {
-      padding: 12px;
+      padding: 10px;
     }
 
     .mat-mdc-card-title {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
   }
 
   .metric-value {
-    font-size: 1.75rem; // Slightly smaller font
-    padding: 16px 0; // Reduce padding
+    font-size: 1.3rem;
+    padding: 12px 0;
   }
 
   // Adjust total earned card for tablets
   .total-earned-card {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 
     .earned-content {
-      padding: 16px;
-      gap: 16px;
+      padding: 10px 16px;
+      gap: 12px;
     }
 
     .earned-icon {
-      width: 56px;
-      height: 56px;
+      width: 36px;
+      height: 36px;
 
       mat-icon {
-        font-size: 28px;
-        width: 28px;
-        height: 28px;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
       }
     }
 
+    .earned-label {
+      font-size: 0.8rem;
+    }
+
     .earned-value {
-      font-size: 2.2rem;
+      font-size: 1.4rem;
     }
   }
 
   // Adjust tennis card for tablets
   .tennis-card {
     .tennis-value {
-      font-size: 1.75rem;
+      font-size: 1.3rem;
+      
+      .tennis-subtitle {
+        font-size: 0.75rem;
+      }
     }
 
-    &::before {
-      font-size: 100px; // Smaller background emoji
+    .tennis-cost {
+      font-size: 0.75rem;
+    }
+
+    .tennis-motivation {
+      font-size: 0.7rem;
     }
   }
 
   // Adjust sober card for tablets
   .sober-card {
     .sober-value {
-      font-size: 1.6rem;
-      padding: 12px;
+      font-size: 1.3rem;
+      padding: 10px;
     }
+  }
 
-    &::before {
-      font-size: 100px;
+  // Adjust BMI card for tablets
+  .bmi-card {
+    .bmi-category {
+      font-size: 0.9rem;
     }
   }
 
   // Adjust earnings cards for tablets
   .weekly-card, .monthly-card {
     .earnings-value {
-      gap: 8px;
+      gap: 6px;
     }
 
     .earnings-subtitle {
-      font-size: 1.1rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  .monthly-card {
+    .trend-indicator {
+      font-size: 0.8rem;
     }
   }
 }
