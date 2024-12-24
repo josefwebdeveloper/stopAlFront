@@ -85,6 +85,15 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   isLoading = true;
   error: string | null = null;
   private latestWeight: number = 0;
+  private velocity = new THREE.Vector3();
+  private isJumping = false;
+  private gravity = 0.15;
+  private bounceFactor = 0.7;
+  private dragFactor = 0.99;
+  private originalPosition = new THREE.Vector3();
+  private bounceTimeout: any;
+  private emitParticles = false;
+  private particles: THREE.Points[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -133,6 +142,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
         this.cdr.detectChanges();
       }
     });
+
+    this.canvasRef.nativeElement.addEventListener('click', this.handleClick);
   }
 
   ngOnDestroy() {
@@ -165,6 +176,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
     }
+
+    this.canvasRef.nativeElement.removeEventListener('click', this.handleClick);
   }
 
   private initScene() {
@@ -200,6 +213,39 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     const bodyMesh = new THREE.Mesh(bodyGeometry, bodyMaterial);
     bodyMesh.position.y = 0;
     body.add(bodyMesh);
+
+    // Create "STOP EAT" text on the back
+    const backCanvas = document.createElement('canvas');
+    const backContext = backCanvas.getContext('2d');
+    backCanvas.width = 512;
+    backCanvas.height = 256;
+
+    if (backContext) {
+      backContext.fillStyle = '#ff9999';
+      backContext.fillRect(0, 0, backCanvas.width, backCanvas.height);
+      
+      backContext.font = 'bold 100px Arial';
+      backContext.textAlign = 'center';
+      backContext.textBaseline = 'middle';
+      backContext.fillStyle = '#ffffff';
+      backContext.fillText('STOP EAT', backCanvas.width/2, backCanvas.height/2);
+      
+      const backTexture = new THREE.CanvasTexture(backCanvas);
+      
+      const backTextGeometry = new THREE.PlaneGeometry(1.6, 0.8);
+      const backTextMaterial = new THREE.MeshBasicMaterial({
+        map: backTexture,
+        transparent: true,
+        opacity: 0.9
+      });
+      
+      const backTextMesh = new THREE.Mesh(backTextGeometry, backTextMaterial);
+      backTextMesh.position.set(0, 0, -1.21); // Position on the back
+      backTextMesh.rotation.x = 0.2; // Slight tilt
+      backTextMesh.rotation.y = Math.PI; // Rotate to face back
+      
+      body.add(backTextMesh);
+    }
 
     // Add the weight number code here
 
@@ -393,16 +439,69 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
 
     if (this.model) {
-        // Add gentle swaying motion
+      if (this.isJumping) {
+        // Apply physics
+        this.velocity.y -= this.gravity;
+        this.model.position.add(this.velocity);
+        this.velocity.multiplyScalar(this.dragFactor);
+
+        // Update particles
+        if (this.emitParticles) {
+          this.particles.forEach((particle, index) => {
+            particle.position.y += 0.05;
+            (particle.material as THREE.PointsMaterial).opacity -= 0.02;
+            if ((particle.material as THREE.PointsMaterial).opacity <= 0) {
+              this.scene.remove(particle);
+              this.particles.splice(index, 1);
+            }
+          });
+
+          if (Math.random() > 0.7) {
+            this.createParticles();
+          }
+        }
+
+        // Bounce when hitting the "ground"
+        if (this.model.position.y < 0) {
+          this.model.position.y = 0;
+          this.velocity.y = -this.velocity.y * this.bounceFactor;
+          
+          // Add a little squish effect on bounce
+          this.model.scale.y = 0.8;
+          this.model.scale.x = 1.2;
+          this.model.scale.z = 1.2;
+          
+          // Reset scale with spring effect
+          setTimeout(() => {
+            this.model.scale.set(1, 1, 1);
+          }, 100);
+        }
+
+        // Bounce off walls
+        if (Math.abs(this.model.position.x) > 5) {
+          this.velocity.x = -this.velocity.x * this.bounceFactor;
+          this.model.position.x = Math.sign(this.model.position.x) * 5;
+        }
+        if (Math.abs(this.model.position.z) > 5) {
+          this.velocity.z = -this.velocity.z * this.bounceFactor;
+          this.model.position.z = Math.sign(this.model.position.z) * 5;
+        }
+
+        // Enhanced spin while flying
+        this.model.rotation.x += this.velocity.z * 0.15;
+        this.model.rotation.z -= this.velocity.x * 0.15;
+        this.model.rotation.y += 0.05;
+      } else {
+        // Normal idle animation
         this.model.rotation.y += 0.01;
         this.model.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+      }
 
-        // Add racket swing animation
-        const racket = (this.model as any).racket;
-        if (racket) {
-            // Gentle swinging motion
-            racket.rotation.z = -Math.PI / 4 + Math.sin(Date.now() * 0.002) * 0.2;
-        }
+      // Racket animation
+      const racket = (this.model as any).racket;
+      if (racket) {
+        racket.rotation.z = -Math.PI / 4 + Math.sin(Date.now() * 0.002) * 0.2;
+      }
     }
 
     this.controls.update();
@@ -415,5 +514,117 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
+  }
+
+  private handleClick = (event: MouseEvent) => {
+    if (!this.model || this.isJumping) return;
+
+    // Convert mouse coordinates to 3D space
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2(x, y);
+    raycaster.setFromCamera(mouse, this.camera);
+
+    const intersects = raycaster.intersectObjects(this.model.children, true);
+
+    if (intersects.length > 0) {
+      // Store original position if not already jumping
+      this.originalPosition.copy(this.model.position);
+      
+      // Apply random velocity when clicked
+      this.velocity.set(
+        (Math.random() - 0.5) * 0.8, // Increased velocity
+        Math.random() * 0.8 + 0.8,   // Higher jumps
+        (Math.random() - 0.5) * 0.8
+      );
+      this.isJumping = true;
+      this.emitParticles = true;
+
+      // Create particle effect
+      this.createParticles();
+
+      // Make the character spin faster when clicked
+      this.model.rotation.y += Math.PI * 2;
+
+      // Clear existing timeout if any
+      if (this.bounceTimeout) {
+        clearTimeout(this.bounceTimeout);
+      }
+
+      // Set timeout to return to original position
+      this.bounceTimeout = setTimeout(() => {
+        this.returnToOriginalPosition();
+      }, 10000);
+    }
+  }
+
+  private createParticles() {
+    const particleCount = 20;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 0.5;
+      positions[i + 1] = Math.random() * 0.5;
+      positions[i + 2] = (Math.random() - 0.5) * 0.5;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({
+      color: 0xff9999,
+      size: 0.1,
+      transparent: true,
+      opacity: 1
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    particles.position.copy(this.model.position);
+    this.scene.add(particles);
+    this.particles.push(particles);
+  }
+
+  private returnToOriginalPosition() {
+    // Create a smooth transition back to original position
+    const duration = 1000; // 1 second
+    const startPosition = this.model.position.clone();
+    const startRotation = this.model.rotation.clone();
+    const startTime = Date.now();
+
+    const animate = () => {
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease out cubic function
+      const easing = 1 - Math.pow(1 - progress, 3);
+
+      // Interpolate position
+      this.model.position.lerpVectors(startPosition, this.originalPosition, easing);
+      
+      // Reset rotation smoothly
+      this.model.rotation.x *= (1 - easing);
+      this.model.rotation.z *= (1 - easing);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        this.isJumping = false;
+        this.velocity.set(0, 0, 0);
+        this.emitParticles = false;
+        // Clean up particles
+        this.particles.forEach(particle => {
+          this.scene.remove(particle);
+          particle.geometry.dispose();
+          (particle.material as THREE.PointsMaterial).dispose();
+        });
+        this.particles = [];
+      }
+    };
+
+    animate();
   }
 }
