@@ -1,19 +1,21 @@
 .add-data-popup {
-  padding: 24px;
+  padding: 16px;
   background: #1e1e2d;
-  min-width: 320px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
 
   h2 {
     color: white;
-    font-size: 20px;
-    margin: 0 0 24px 0;
+    font-size: 18px;
+    margin: 0 0 16px 0;
     font-weight: 500;
   }
 
   form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 }
 
@@ -27,13 +29,18 @@
   .mat-mdc-dialog-container {
     --mdc-dialog-container-color: #1e1e2d;
     border-radius: 16px;
-
+    padding: 0 !important;
+    max-height: 90vh !important;
+    
     .mdc-dialog__surface {
       border-radius: 16px;
+      overflow-y: auto !important;
     }
   }
 
   .mat-mdc-form-field {
+    width: 100%;
+
     .mdc-text-field--outlined {
       --mdc-outlined-text-field-container-color: #2b2b40;
       --mdc-outlined-text-field-outline-color: #2b2b40;
@@ -41,6 +48,7 @@
       --mdc-outlined-text-field-hover-outline-color: #2b2b40;
       background: #2b2b40;
       border-radius: 8px;
+      min-height: 48px;
     }
 
     .mat-mdc-form-field-flex {
@@ -49,6 +57,7 @@
 
     .mdc-floating-label, .mat-mdc-input-element {
       color: rgba(255, 255, 255, 0.7) !important;
+      font-size: 16px !important;
     }
 
     .mdc-floating-label--float-above {
@@ -71,12 +80,23 @@
     .mdc-form-field > label {
       color: rgba(255, 255, 255, 0.7);
     }
+
+    margin: 8px 0;
+    
+    .mdc-checkbox {
+      transform: scale(1.1);
+    }
   }
 
   .mat-datepicker-content {
     background: #1e1e2d;
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    .mat-calendar {
+      width: 280px !important;
+      height: auto !important;
+    }
   }
 
   .mat-calendar {
@@ -121,14 +141,17 @@
 }
 
 mat-dialog-actions {
-  padding: 24px 0 0 0;
+  padding: 16px 0 0 0;
   margin: 0;
-  gap: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
   justify-content: flex-end;
 
   button {
-    min-width: 100px;
+    min-width: 80px;
+    height: 40px;
     border-radius: 6px;
+    flex: 0 0 auto;
   }
 
   button[mat-button] {
@@ -144,6 +167,26 @@ mat-dialog-actions {
     
     &:hover {
       background: #1e88ff;
+    }
+  }
+
+  @media (max-width: 320px) {
+    flex-direction: column-reverse;
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .add-data-popup {
+    padding: 12px;
+    
+    h2 {
+      font-size: 16px;
+      margin: 0 0 12px 0;
     }
   }
 } 

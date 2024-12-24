@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatDialogTitle, MatDialogModule, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,7 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   styleUrls: ['./add-data-popup.component.scss']
 })
-export class AddDataPopupComponent {
+export class AddDataPopupComponent implements OnInit {
   entryForm: FormGroup;
 
   constructor(
@@ -40,6 +40,17 @@ export class AddDataPopupComponent {
       alcohol: [false],
       alcoholPrice: [''],
       activityCalories: [''],
+      date: [new Date()]
+    });
+  }
+
+  ngOnInit() {
+    this.entryForm = this.fb.group({
+      weight: ['', { updateOn: 'blur' }],
+      sleep: ['', { updateOn: 'blur' }],
+      alcohol: [false],
+      alcoholPrice: ['', { updateOn: 'blur' }],
+      activityCalories: ['', { updateOn: 'blur' }],
       date: [new Date()]
     });
   }

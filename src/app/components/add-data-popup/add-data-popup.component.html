@@ -5,12 +5,12 @@
     <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline">
         <mat-label>Weight (kg)</mat-label>
-        <input matInput type="string" formControlName="weight" placeholder="Enter weight">
+        <input matInput type="number" inputmode="decimal" formControlName="weight" placeholder="Enter weight">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Sleep (hours)</mat-label>
-        <input matInput type="string" formControlName="sleep" placeholder="Enter sleep hours">
+        <input matInput type="number" inputmode="decimal" formControlName="sleep" placeholder="Enter sleep hours">
       </mat-form-field>
 
       <mat-checkbox formControlName="alcohol">
@@ -19,17 +19,17 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Alcohol Price</mat-label>
-        <input matInput type="string" formControlName="alcoholPrice" placeholder="Enter price">
+        <input matInput type="number" inputmode="decimal" formControlName="alcoholPrice" placeholder="Enter price">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Activity Calories</mat-label>
-        <input matInput type="string" formControlName="activityCalories" placeholder="Enter calories">
+        <input matInput type="number" inputmode="decimal" formControlName="activityCalories" placeholder="Enter calories">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose date">
+        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose date" readonly>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>

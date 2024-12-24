@@ -8,12 +8,12 @@
     </div>
 
     <div class="right-section">
-      <button mat-icon-button (click)="toggleFullscreen()" class="fullscreen-button">
+      <button mat-icon-button (click)="toggleFullscreen()" class="fullscreen-button hide-on-mobile">
         <mat-icon>{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
       </button>
 
       <ng-container *ngIf="user$ | async as user; else loginButton">
-        <span class="user-name">{{ user.displayName }}</span>
+        <span class="user-name hide-on-mobile">{{ user.displayName }}</span>
         <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
           <img [src]="user.photoURL" alt="user avatar" class="user-avatar"
                *ngIf="user.photoURL; else userIcon">
@@ -32,7 +32,7 @@
       <ng-template #loginButton>
         <button mat-button (click)="login()" class="login-button">
           <mat-icon>login</mat-icon>
-          Login
+          <span class="login-text">Login</span>
         </button>
       </ng-template>
     </div>
