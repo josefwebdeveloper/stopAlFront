@@ -180,10 +180,18 @@ export class DashboardComponent {
   private startMoneyRain() {
     setInterval(() => {
       const moneyRain = document.querySelector('.money-rain') as HTMLElement;
+      const snowFall = document.querySelector('.snow-fall') as HTMLElement;
+      
       if (moneyRain) {
         moneyRain.style.animation = 'none';
         moneyRain.offsetHeight; // Trigger reflow
-        moneyRain.style.animation = 'trigger-rain 10s infinite';
+        moneyRain.style.animation = 'trigger-effects 10s infinite';
+      }
+      
+      if (snowFall) {
+        snowFall.style.animation = 'none';
+        snowFall.offsetHeight; // Trigger reflow
+        snowFall.style.animation = 'trigger-effects 10s infinite';
       }
     }, 10000); // Runs every 10 seconds
   }

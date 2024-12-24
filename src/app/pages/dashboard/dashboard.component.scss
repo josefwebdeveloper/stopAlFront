@@ -549,3 +549,118 @@
     }
   }
 }
+
+// Add these new styles for snowfall
+.snow-fall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  .snowflake {
+    position: absolute;
+    animation: snow-fall 6s linear infinite;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    
+    // Mix of blue and white snowflakes with varying opacity
+    &:nth-child(1) { 
+      left: 10%; 
+      font-size: 100px; 
+      animation-delay: 0s; 
+      color: rgba(135, 206, 235, 0.8); // Sky blue
+    }
+    &:nth-child(2) { 
+      left: 25%; 
+      font-size: 80px; 
+      animation-delay: 1s;
+      color: rgba(255, 255, 255, 0.7); // White
+    }
+    &:nth-child(3) { 
+      left: 40%; 
+      font-size: 90px; 
+      animation-delay: 2s;
+      color: rgba(173, 216, 230, 0.8); // Light blue
+    }
+    &:nth-child(4) { 
+      left: 55%; 
+      font-size: 110px; 
+      animation-delay: 0.5s;
+      color: rgba(255, 255, 255, 0.8); // White
+    }
+    &:nth-child(5) { 
+      left: 70%; 
+      font-size: 95px; 
+      animation-delay: 1.5s;
+      color: rgba(135, 206, 235, 0.7); // Sky blue
+    }
+    &:nth-child(6) { 
+      left: 85%; 
+      font-size: 85px; 
+      animation-delay: 2.5s;
+      color: rgba(255, 255, 255, 0.75); // White
+    }
+    &:nth-child(7) { 
+      left: 95%; 
+      font-size: 105px; 
+      animation-delay: 3s;
+      color: rgba(173, 216, 230, 0.85); // Light blue
+    }
+    &:nth-child(8) { 
+      left: 15%; 
+      font-size: 90px; 
+      animation-delay: 3.5s;
+      color: rgba(255, 255, 255, 0.8); // White
+    }
+  }
+}
+
+// Update text shadow for better visibility of colored snowflakes
+.snow-fall .snowflake {
+  text-shadow: 
+    0 0 15px rgba(255, 255, 255, 0.3),
+    0 0 20px rgba(135, 206, 235, 0.2); // Add subtle blue glow
+}
+
+@keyframes snow-fall {
+  0% {
+    top: -20px;
+    transform: translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 120%;
+    transform: translateX(30px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+// Update the total-earned-card to handle both animations
+.total-earned-card {
+  .money-rain, .snow-fall {
+    mix-blend-mode: screen;
+  }
+}
+
+// Update the trigger animation to include snow
+@keyframes trigger-effects {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// Apply the animation to both effects
+.money-rain, .snow-fall {
+  animation: trigger-effects 10s infinite;
+}
