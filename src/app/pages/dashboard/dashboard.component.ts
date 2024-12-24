@@ -8,8 +8,8 @@ import { AddDataPopupComponent } from '../../components/add-data-popup/add-data-
 import { AuthService } from '../../services/auth.service';
 import { Entry, EntryData } from '../../interfaces/entry-data.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { interval } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, interval, merge } from 'rxjs';
+import { startWith, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,13 +28,16 @@ export class DashboardComponent {
   latestEntry?: Entry;
   totalEarned = 0;
   private readonly destroyRef = inject(DestroyRef);
+  private refreshTrigger = new BehaviorSubject<void>(undefined);
 
   constructor(
     private dialog: MatDialog,
     private authService: AuthService
   ) {
-    interval(30000).pipe(
-      startWith(0),
+    const autoRefresh = interval(30000).pipe(startWith(0));
+    const manualRefresh = this.refreshTrigger.asObservable();
+
+    merge(autoRefresh, manualRefresh).pipe(
       switchMap(() => this.authService.getEntries()),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
@@ -43,24 +46,6 @@ export class DashboardComponent {
         this.latestEntry = data.entries[0];
         this.totalEarned = data.totalEarned;
         console.log('Latest entry:', this.latestEntry);
-      },
-      error: (error) => {
-        console.error('Error loading entries:', error);
-        if (error.status === 401) {
-          this.authService.loginWithGoogle();
-        }
-      }
-    });
-  }
-
-  private loadEntries() {
-    return this.authService.getEntries().pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: (data: EntryData) => {
-        this.entries = data.entries;
-        this.latestEntry = data.entries[0];
-        this.totalEarned = data.totalEarned;
       },
       error: (error) => {
         console.error('Error loading entries:', error);
@@ -82,12 +67,12 @@ export class DashboardComponent {
       console.log('The dialog was closed:', result);
       if (result) {
         this.authService.addEntry(result).pipe(
+          tap(() => {
+            console.log('Entry added:', result);
+            this.refreshTrigger.next();
+          }),
           takeUntilDestroyed(this.destroyRef)
         ).subscribe({
-          next: () => {
-            console.log('Entry added:', result);
-            this.loadEntries();
-          },
           error: (error) => {
             console.error('Error adding entry:', error);
             if (error.status === 401) {
