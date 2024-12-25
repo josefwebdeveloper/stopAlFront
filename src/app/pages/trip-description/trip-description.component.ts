@@ -21,9 +21,9 @@ export class TripDescriptionComponent {
 
   // Add your uploaded images
   images = [
-    'assets/italy/room1.jpg',
-    'assets/italy/living-room.jpg',
-    'assets/italy/kitchen.jpg',
-    'assets/italy/bedroom.jpg'
+    'assets/italy/2.png',
+    'assets/italy/22.jpeg',
+    'assets/italy/33.jpg',
+    'assets/italy/44.jpg'
   ];
-} 
+}
