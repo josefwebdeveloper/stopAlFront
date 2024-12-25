@@ -16,7 +16,7 @@ export class TripDescriptionComponent {
     { icon: 'landscape', text: 'Beautiful cross-country skiing trails in Lavaze' },
     { icon: 'hotel', text: 'Cozy stay at Casa al portico Val di Cembra' },
     { icon: 'schedule', text: 'Trip dates: January 31-February 10, 2025' },
-    { icon: 'group', text: '2 adults, 1 child' }
+    { icon: 'group', text: 'Elena, Mark, Joseph and special guest Anton' }
   ];
 
   // Add your uploaded images
