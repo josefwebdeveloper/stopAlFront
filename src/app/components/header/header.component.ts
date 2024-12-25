@@ -1,11 +1,11 @@
 import {Component, Output, EventEmitter, inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import {CommonModule} from '@angular/common';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {RouterModule, Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent {
   @Output() toggleSidenav = new EventEmitter<void>();
-  authService=inject(AuthService);
+  authService = inject(AuthService);
   user$ = this.authService.user$;
   isFullscreen = false;
 
@@ -64,10 +64,12 @@ export class HeaderComponent {
         this.router.navigate(['/profile']);
         break;
       case '/profile':
+        this.router.navigate(['/trip-description']);
+        break;
+      case '/trip-description':
         this.router.navigate(['/settings']);
         break;
       case '/settings':
-      default:
         this.router.navigate(['/dashboard']);
         break;
     }

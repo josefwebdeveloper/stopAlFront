@@ -1,0 +1,46 @@
+<div class="trip-header">
+  <h1>Italian Cross-Country Skiing Adventure</h1>
+  <p>Experience the magic of winter in Trentino-Alto-Adige</p>
+</div>
+
+<div class="content-container">
+  <section>
+    <h2>Our Upcoming Adventure</h2>
+    <p>Join us for an unforgettable cross-country skiing experience in the beautiful region of Trentino, Italy. 
+       We'll be staying at the charming Casa al portico Val di Cembra, perfectly located for our winter activities.</p>
+  </section>
+
+  <div class="highlight-cards">
+    <mat-card class="highlight-card" *ngFor="let highlight of tripHighlights">
+      <mat-icon>{{highlight.icon}}</mat-icon>
+      <h3>{{highlight.text}}</h3>
+    </mat-card>
+  </div>
+
+  <section class="accommodation">
+    <h2>Our Beautiful Accommodation</h2>
+    <p>Casa al portico Val di Cembra offers the perfect blend of comfort and traditional Italian charm. 
+       With its wooden beams and cozy atmosphere, it's the ideal base for our skiing adventure.</p>
+    
+    <div class="image-gallery">
+      <img [src]="images[0]" alt="Casa al portico Val di Cembra - Bedroom view">
+      <img [src]="images[1]" alt="Casa al portico Val di Cembra - Living area">
+      <img [src]="images[2]" alt="Casa al portico Val di Cembra - Interior">
+      <img [src]="images[3]" alt="Casa al portico Val di Cembra - Another view">
+    </div>
+  </section>
+
+  <section class="activities">
+    <h2>Daily Schedule</h2>
+    <mat-card>
+      <mat-card-content>
+        <ul>
+          <li>Morning: Cross-country skiing in the pristine trails</li>
+          <li>Afternoon: Explore local villages and culture</li>
+          <li>Evening: Relax in our cozy accommodation</li>
+          <li>Special activity: Sauna and pool</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div> 
