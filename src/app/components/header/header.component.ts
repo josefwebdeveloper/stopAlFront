@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, inject} from '@angular/core';
+import {Component, Output, EventEmitter, inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -21,11 +21,39 @@ import {AuthService} from '../../services/auth.service';
     RouterModule
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   @Output() toggleSidenav = new EventEmitter<void>();
   authService = inject(AuthService);
   user$ = this.authService.user$;
   isFullscreen = false;
+  private autoNavigationInterval: any;
+
+  constructor(private router: Router) {
+    document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
+    
+    // Start auto-navigation when component is created
+    this.startAutoNavigation();
+  }
+
+  ngOnDestroy() {
+    // Clean up the interval when component is destroyed
+    this.stopAutoNavigation();
+  }
+
+  startAutoNavigation() {
+    // Set interval to call navigateNext every 30 seconds
+    this.autoNavigationInterval = setInterval(() => {
+      this.navigateNext();
+    }, 30000); // 30000 milliseconds = 30 seconds
+  }
+
+  stopAutoNavigation() {
+    if (this.autoNavigationInterval) {
+      clearInterval(this.autoNavigationInterval);
+    }
+  }
 
   async toggleFullscreen() {
     if (!document.fullscreenElement) {
@@ -41,12 +69,6 @@ export class HeaderComponent {
         this.isFullscreen = false;
       }
     }
-  }
-
-  constructor(private router: Router) {
-    document.addEventListener('fullscreenchange', () => {
-      this.isFullscreen = !!document.fullscreenElement;
-    });
   }
 
   login() {
