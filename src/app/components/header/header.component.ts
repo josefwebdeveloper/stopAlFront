@@ -4,6 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -16,7 +17,8 @@ import { AuthService } from '../../services/auth.service';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    RouterModule
   ]
 })
 export class HeaderComponent {
@@ -41,7 +43,7 @@ export class HeaderComponent {
     }
   }
 
-  constructor() {
+  constructor(private router: Router) {
     document.addEventListener('fullscreenchange', () => {
       this.isFullscreen = !!document.fullscreenElement;
     });
@@ -53,5 +55,21 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  navigateNext() {
+    const currentUrl = this.router.url;
+    switch (currentUrl) {
+      case '/dashboard':
+        this.router.navigate(['/profile']);
+        break;
+      case '/profile':
+        this.router.navigate(['/settings']);
+        break;
+      case '/settings':
+      default:
+        this.router.navigate(['/dashboard']);
+        break;
+    }
   }
 }

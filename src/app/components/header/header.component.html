@@ -7,6 +7,12 @@
       <img src="assets/mydays13.png" alt="Logo" class="app-logo">
     </div>
 
+    <div class="nav-section">
+      <button mat-button (click)="navigateNext()" class="nav-button">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+
     <div class="right-section">
       <button mat-icon-button (click)="toggleFullscreen()" class="fullscreen-button hide-on-mobile">
         <mat-icon>{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
