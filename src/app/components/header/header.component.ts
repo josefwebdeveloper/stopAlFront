@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, inject, OnDestroy} from '@angular/core';
+import {Component, Output, EventEmitter, inject, OnInit, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -21,37 +21,41 @@ import {AuthService} from '../../services/auth.service';
     RouterModule
   ]
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Output() toggleSidenav = new EventEmitter<void>();
   authService = inject(AuthService);
   user$ = this.authService.user$;
   isFullscreen = false;
-  private autoNavigationInterval: any;
+  private pageInterval: any;
+  private readonly PAGE_SWITCH_INTERVAL = 60000; // 45 seconds
 
   constructor(private router: Router) {
     document.addEventListener('fullscreenchange', () => {
       this.isFullscreen = !!document.fullscreenElement;
     });
-    
-    // Start auto-navigation when component is created
-    this.startAutoNavigation();
+  }
+
+  ngOnInit() {
+    this.startPageSwitching();
   }
 
   ngOnDestroy() {
-    // Clean up the interval when component is destroyed
-    this.stopAutoNavigation();
+    this.stopPageSwitching();
   }
 
-  startAutoNavigation() {
-    // Set interval to call navigateNext every 30 seconds
-    this.autoNavigationInterval = setInterval(() => {
+  private startPageSwitching() {
+    // Initial navigation
+    this.navigateNext();
+
+    // Set up interval for subsequent navigations
+    this.pageInterval = setInterval(() => {
       this.navigateNext();
-    }, 30000); // 30000 milliseconds = 30 seconds
+    }, this.PAGE_SWITCH_INTERVAL);
   }
 
-  stopAutoNavigation() {
-    if (this.autoNavigationInterval) {
-      clearInterval(this.autoNavigationInterval);
+  private stopPageSwitching() {
+    if (this.pageInterval) {
+      clearInterval(this.pageInterval);
     }
   }
 

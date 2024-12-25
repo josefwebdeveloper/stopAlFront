@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,32 +30,69 @@ export class TripDescriptionComponent implements OnInit, OnDestroy, AfterViewIni
 
   private scrollInterval: any;
   private currentPosition = 0;
-  private readonly SCROLL_SPEED = 1; // pixels per interval
-  private readonly SCROLL_INTERVAL = 30; // milliseconds
+  private readonly SCROLL_SPEED = 0.5;
+  private readonly SCROLL_INTERVAL = 16;
+  private isManualScrolling = false;
+  private manualScrollTimeout: any;
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.startAutoScroll();
+    setTimeout(() => {
+      this.startAutoScroll();
+    }, 500);
   }
 
   ngOnDestroy() {
     this.stopAutoScroll();
+    if (this.manualScrollTimeout) {
+      clearTimeout(this.manualScrollTimeout);
+    }
+  }
+
+  @HostListener('wheel')
+  onMouseWheel() {
+    this.handleManualScroll();
+  }
+
+  @HostListener('touchstart')
+  onTouchStart() {
+    this.handleManualScroll();
+  }
+
+  private handleManualScroll() {
+    // Stop auto-scroll when user interacts
+    this.stopAutoScroll();
+    this.isManualScrolling = true;
+
+    // Clear existing timeout
+    if (this.manualScrollTimeout) {
+      clearTimeout(this.manualScrollTimeout);
+    }
+
+    // Resume auto-scroll after 5 seconds of no manual scrolling
+    this.manualScrollTimeout = setTimeout(() => {
+      this.isManualScrolling = false;
+      this.currentPosition = this.contentContainer.nativeElement.scrollTop;
+      this.startAutoScroll();
+    }, 5000);
   }
 
   private startAutoScroll() {
-    this.scrollInterval = setInterval(() => {
-      const container = this.contentContainer.nativeElement;
-      const maxScroll = container.scrollHeight - container.clientHeight;
+    if (this.isManualScrolling) return;
 
-      if (this.currentPosition >= maxScroll) {
+    const container = this.contentContainer.nativeElement;
+    const totalHeight = container.scrollHeight - container.clientHeight;
+
+    this.scrollInterval = setInterval(() => {
+      if (this.currentPosition >= totalHeight) {
         this.currentPosition = 0;
+        container.scrollTop = 0;
       } else {
         this.currentPosition += this.SCROLL_SPEED;
+        container.scrollTop = this.currentPosition;
       }
-
-      container.scrollTop = this.currentPosition;
     }, this.SCROLL_INTERVAL);
   }
 
