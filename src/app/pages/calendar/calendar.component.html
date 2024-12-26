@@ -1,0 +1,37 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button (click)="previousMonth()">&lt;</button>
+    <h2>{{ currentMonth | date:'MMMM yyyy' }}</h2>
+    <button (click)="nextMonth()">&gt;</button>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="weekday-header">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+
+    <div class="calendar-weeks" [class.loading]="loading">
+      <div class="week" *ngFor="let week of calendar">
+        <div class="day" 
+             *ngFor="let day of week"
+             [class.drinking]="day.isDrinking"
+             [class.non-drinking]="!day.isDrinking"
+             [class.current-month]="day.isCurrentMonth"
+             [class.other-month]="!day.isCurrentMonth"
+             (click)="toggleDay(day)">
+          {{ day.date | date:'d' }}
+        </div>
+      </div>
+      
+      <div class="loading-overlay" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,93 @@
+.calendar-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  button {
+    padding: 8px 16px;
+    border: none;
+    background: #f0f0f0;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+  }
+}
+
+.calendar-grid {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.weekday-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f8f9fa;
+  padding: 10px 0;
+  
+  div {
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.calendar-weeks {
+  position: relative;
+  
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    padding: 10px;
+    cursor: pointer;
+
+    &.drinking {
+      background-color: #ffcdd2;  // Light red
+    }
+
+    &.non-drinking {
+      background-color: #c8e6c9;  // Light green
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &.other-month {
+      opacity: 0.3;
+    }
+
+    &.current-month {
+      opacity: 1;
+    }
+  }
+} 

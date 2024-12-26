@@ -6,6 +6,7 @@ import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {SettingsComponent} from './pages/settings/settings.component';
 import {TripDescriptionComponent} from './pages/trip-description/trip-description.component';
+import { CalendarComponent } from './pages/calendar/calendar.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -25,6 +26,10 @@ export const routes: Routes = [
   {
     path: 'trip-description', component: TripDescriptionComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'calendar',
+    component: CalendarComponent
   },
   {path: '**', redirectTo: '/login'}
 ];
