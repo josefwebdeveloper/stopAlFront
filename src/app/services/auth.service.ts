@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, interval, switchMap, startWith, filter } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Entry, EntryData } from '../interfaces/entry-data.interface';
@@ -18,12 +18,28 @@ interface User {
 export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
+  private entriesSubject = new BehaviorSubject<EntryData | null>(null);
+  entries$ = this.entriesSubject.asObservable();
 
   constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       this.userSubject.next(JSON.parse(savedUser));
+      this.startEntriesPolling();
     }
+  }
+
+  private startEntriesPolling() {
+    interval(120000)
+      .pipe(
+        startWith(0),
+        filter(() => this.isAuthenticated()),
+        switchMap(() => this.getEntries())
+      )
+      .subscribe({
+        next: (entries) => this.entriesSubject.next(entries),
+        error: (error) => console.error('Error fetching entries:', error)
+      });
   }
 
   loginWithGoogle() {
@@ -33,11 +49,13 @@ export class AuthService {
   setUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.userSubject.next(user);
+    this.startEntriesPolling();
   }
 
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
+    this.entriesSubject.next(null);
     window.location.href = '/';
   }
 
