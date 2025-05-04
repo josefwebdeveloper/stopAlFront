@@ -4,10 +4,9 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-auth-callback',
-  template: '<div>Processing authentication...</div>',
-  standalone: true,
-  imports: [CommonModule]
+    selector: 'app-auth-callback',
+    template: '<div>Processing authentication...</div>',
+    imports: [CommonModule]
 })
 export class AuthCallbackComponent implements OnInit {
   constructor(

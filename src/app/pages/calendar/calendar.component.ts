@@ -10,11 +10,10 @@ interface CalendarDay {
 }
 
 @Component({
-  selector: 'app-calendar',
-  standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule],
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+    selector: 'app-calendar',
+    imports: [CommonModule, MatProgressSpinnerModule],
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
   calendar: CalendarDay[][] = [];

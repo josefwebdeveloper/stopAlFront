@@ -9,23 +9,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
-  selector: 'app-add-data-popup',
-  templateUrl: './add-data-popup.component.html',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    MatNativeDateModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions
-  ],
-  styleUrls: ['./add-data-popup.component.scss']
+    selector: 'app-add-data-popup',
+    templateUrl: './add-data-popup.component.html',
+    imports: [
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        MatNativeDateModule,
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions
+    ],
+    styleUrls: ['./add-data-popup.component.scss']
 })
 export class AddDataPopupComponent implements OnInit {
   entryForm: FormGroup;

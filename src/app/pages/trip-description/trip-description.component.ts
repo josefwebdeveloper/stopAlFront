@@ -5,11 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-trip-description',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
-  templateUrl: './trip-description.component.html',
-  styleUrls: ['./trip-description.component.scss']
+    selector: 'app-trip-description',
+    imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+    templateUrl: './trip-description.component.html',
+    styleUrls: ['./trip-description.component.scss']
 })
 export class TripDescriptionComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('contentContainer') contentContainer!: ElementRef;

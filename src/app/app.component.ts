@@ -8,18 +8,17 @@ import { CommonModule } from '@angular/common';
 import { IconService } from './services/icon.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [
-    RouterModule, 
-    HeaderComponent, 
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    CommonModule
-  ]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [
+        RouterModule,
+        HeaderComponent,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        CommonModule
+    ]
 })
 export class AppComponent {
   title = 'stop-al-front';

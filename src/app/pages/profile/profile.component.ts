@@ -6,10 +6,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule],
-  template: `
+    selector: 'app-profile',
+    imports: [CommonModule, MatProgressSpinnerModule],
+    template: `
     <div class="profile-container">
       <canvas #canvas class="model-viewer"></canvas>
       <div class="profile-content">
@@ -22,7 +21,7 @@ import { AuthService } from '../../services/auth.service';
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .profile-container {
       width: 100%;
       height: calc(100vh - 64px);
