@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'styles/_variables' as vars;
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-@import 'styles/variables';
 
 // Global styles
 html, body {
