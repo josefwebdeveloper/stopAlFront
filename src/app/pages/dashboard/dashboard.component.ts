@@ -8,8 +8,8 @@ import { AddDataPopupComponent } from '../../components/add-data-popup/add-data-
 import { AuthService } from '../../services/auth.service';
 import { Entry, EntryData } from '../../interfaces/entry-data.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, interval, merge } from 'rxjs';
-import { startWith, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap, tap, filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-dashboard',
@@ -34,10 +34,23 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService
   ) {
-    const autoRefresh = interval(30000).pipe(startWith(0));
-    const manualRefresh = this.refreshTrigger.asObservable();
-
-    merge(autoRefresh, manualRefresh).pipe(
+    // Subscribe to the existing entries$ observable
+    this.authService.entries$.pipe(
+      filter(data => !!data),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (data: EntryData | null) => {
+        if (data) {
+          this.entries = data.entries;
+          this.latestEntry = data.entries[0];
+          this.totalEarned = data.totalEarned;
+          console.log('Latest entry:', this.latestEntry);
+        }
+      }
+    });
+    
+    // Keep the manual refresh capability
+    this.refreshTrigger.pipe(
       switchMap(() => this.authService.getEntries()),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
@@ -45,7 +58,7 @@ export class DashboardComponent implements OnInit {
         this.entries = data.entries;
         this.latestEntry = data.entries[0];
         this.totalEarned = data.totalEarned;
-        console.log('Latest entry:', this.latestEntry);
+        console.log('Manually refreshed latest entry:', this.latestEntry);
       },
       error: (error) => {
         console.error('Error loading entries:', error);

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, interval, switchMap, startWith, filter } from 'rxjs';
+import { BehaviorSubject, Observable, interval, switchMap, startWith, filter, timer } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Entry, EntryData } from '../interfaces/entry-data.interface';
+import { retry } from 'rxjs/operators';
 
 interface User {
   id: string;
@@ -20,6 +21,7 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
   private entriesSubject = new BehaviorSubject<EntryData | null>(null);
   entries$ = this.entriesSubject.asObservable();
+  private isPollingActive = false;
 
   constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('user');
@@ -30,6 +32,9 @@ export class AuthService {
   }
 
   private startEntriesPolling() {
+    if (this.isPollingActive) return;
+    
+    this.isPollingActive = true;
     interval(120000)
       .pipe(
         startWith(0),
@@ -38,7 +43,10 @@ export class AuthService {
       )
       .subscribe({
         next: (entries) => this.entriesSubject.next(entries),
-        error: (error) => console.error('Error fetching entries:', error)
+        error: (error) => {
+          console.error('Error fetching entries:', error);
+          // Keep isPollingActive true since the interval will continue
+        }
       });
   }
 
@@ -49,13 +57,18 @@ export class AuthService {
   setUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.userSubject.next(user);
-    this.startEntriesPolling();
+    
+    // Only start polling if it's not already running
+    if (!this.isPollingActive) {
+      this.startEntriesPolling();
+    }
   }
 
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(null);
     this.entriesSubject.next(null);
+    this.isPollingActive = false;
     window.location.href = '/';
   }
 
@@ -91,6 +104,11 @@ export class AuthService {
       {
         headers: this.getAuthHeaders(),
       }
+    ).pipe(
+      retry({
+        count: 3,
+        delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000)
+      })
     );
   }
 }
