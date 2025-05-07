@@ -35,11 +35,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startPageSwitching();
+    // this.startPageSwitching();
   }
 
   ngOnDestroy() {
-    this.stopPageSwitching();
+    // this.stopPageSwitching();
   }
 
   private startPageSwitching() {
@@ -47,9 +47,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.navigateNext();
 
     // Set up interval for subsequent navigations
-    this.pageInterval = setInterval(() => {
-      this.navigateNext();
-    }, this.PAGE_SWITCH_INTERVAL);
+    // this.pageInterval = setInterval(() => {
+    //   this.navigateNext();
+    // }, this.PAGE_SWITCH_INTERVAL);
   }
 
   private stopPageSwitching() {

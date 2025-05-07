@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import {Component, inject, DestroyRef, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,7 @@ import { startWith, switchMap, tap } from 'rxjs/operators';
         MatCardModule
     ]
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   entries: Entry[] = [];
   latestEntry?: Entry;
   totalEarned = 0;
@@ -125,7 +125,7 @@ export class DashboardComponent {
   get weeklyEarnings(): number {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    
+
     return this.entries
       .filter(entry => {
         const entryDate = new Date(entry.date);
@@ -137,7 +137,7 @@ export class DashboardComponent {
   get monthlyEarnings(): number {
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-    
+
     return this.entries
       .filter(entry => {
         const entryDate = new Date(entry.date);
@@ -180,13 +180,13 @@ export class DashboardComponent {
     setInterval(() => {
       const moneyRain = document.querySelector('.money-rain') as HTMLElement;
       const snowFall = document.querySelector('.snow-fall') as HTMLElement;
-      
+
       if (moneyRain) {
         moneyRain.style.animation = 'none';
         moneyRain.offsetHeight; // Trigger reflow
         moneyRain.style.animation = 'trigger-effects 10s infinite';
       }
-      
+
       if (snowFall) {
         snowFall.style.animation = 'none';
         snowFall.offsetHeight; // Trigger reflow
