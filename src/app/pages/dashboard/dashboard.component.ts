@@ -1,4 +1,4 @@
-import {Component, inject, DestroyRef, OnInit} from '@angular/core';
+import {Component, inject, DestroyRef, OnInit, OnDestroy} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,13 +22,14 @@ import { switchMap, tap, filter } from 'rxjs/operators';
         MatCardModule
     ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   entries: Entry[] = [];
   latestEntry?: Entry;
   totalEarned = 0;
   private readonly destroyRef = inject(DestroyRef);
   private refreshTrigger = new BehaviorSubject<void>(undefined);
   readonly TENNIS_LESSON_COST = 200;
+  private moneyRainInterval: any = null;
 
   constructor(
     private dialog: MatDialog,
@@ -67,6 +68,19 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngOnInit() {
+    // Start the money rain animation loop
+    this.startMoneyRain();
+  }
+
+  ngOnDestroy() {
+    // Clean up the interval when component is destroyed
+    if (this.moneyRainInterval) {
+      clearInterval(this.moneyRainInterval);
+      this.moneyRainInterval = null;
+    }
   }
 
   openAddDataPopup() {
@@ -184,13 +198,14 @@ export class DashboardComponent implements OnInit {
     return `${tennisLessons} tennis lessons! 🏆`;
   }
 
-  ngOnInit() {
-    // Start the money rain animation loop
-    this.startMoneyRain();
-  }
-
   private startMoneyRain() {
-    setInterval(() => {
+    // Clear any existing interval first
+    if (this.moneyRainInterval) {
+      clearInterval(this.moneyRainInterval);
+    }
+    
+    // Set a new interval with proper reference for cleanup
+    this.moneyRainInterval = setInterval(() => {
       const moneyRain = document.querySelector('.money-rain') as HTMLElement;
       const snowFall = document.querySelector('.snow-fall') as HTMLElement;
 

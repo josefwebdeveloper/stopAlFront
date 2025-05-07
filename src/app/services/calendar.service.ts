@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AuthService } from './auth.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Entry, EntryData } from '../interfaces/entry-data.interface';
 
 export interface DrinkingDay {
@@ -12,19 +12,26 @@ export interface DrinkingDay {
 @Injectable({
   providedIn: 'root'
 })
-export class CalendarService {
+export class CalendarService implements OnDestroy {
   private cachedEntries: EntryData | null = null;
   private lastFetchTime = 0;
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes cache
+  private entriesSubscription: Subscription;
 
   constructor(private authService: AuthService) {
     // Subscribe to the entries$ to keep local cache updated
-    this.authService.entries$.subscribe(entries => {
+    this.entriesSubscription = this.authService.entries$.subscribe(entries => {
       if (entries) {
         this.cachedEntries = entries;
         this.lastFetchTime = Date.now();
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.entriesSubscription) {
+      this.entriesSubscription.unsubscribe();
+    }
   }
 
   async getDrinkingDays(startDate: Date, endDate: Date): Promise<DrinkingDay[]> {
@@ -34,11 +41,21 @@ export class CalendarService {
       return this.mapEntriesToDrinkingDays(this.cachedEntries);
     }
     
-    // Otherwise fetch new data
-    const entries = await firstValueFrom(this.authService.getEntries());
-    this.cachedEntries = entries;
-    this.lastFetchTime = Date.now();
-    return this.mapEntriesToDrinkingDays(entries);
+    try {
+      // Otherwise fetch new data
+      const entries = await firstValueFrom(this.authService.getEntries());
+      this.cachedEntries = entries;
+      this.lastFetchTime = Date.now();
+      return this.mapEntriesToDrinkingDays(entries);
+    } catch (error) {
+      console.error('Error fetching drinking days:', error);
+      // Return cached data even if it's expired in case of error
+      if (this.cachedEntries) {
+        console.log('Using expired cached entries due to error');
+        return this.mapEntriesToDrinkingDays(this.cachedEntries);
+      }
+      return [];
+    }
   }
 
   private mapEntriesToDrinkingDays(entries: EntryData): DrinkingDay[] {
@@ -49,12 +66,17 @@ export class CalendarService {
   }
 
   async toggleDrinkingDay(date: Date, isDrinking: boolean): Promise<void> {
-    await firstValueFrom(this.authService.addEntry({
-      date: date.toISOString(),
-      alcohol: isDrinking,
-      createdAt: new Date().toISOString(),
-      id: date.toISOString(),
-      earned: 0,
-    }));
+    try {
+      await firstValueFrom(this.authService.addEntry({
+        date: date.toISOString(),
+        alcohol: isDrinking,
+        createdAt: new Date().toISOString(),
+        id: date.toISOString(),
+        earned: 0,
+      }));
+    } catch (error) {
+      console.error('Error toggling drinking day:', error);
+      throw error;
+    }
   }
 } 
