@@ -33,6 +33,7 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
       } else {
         this.router.navigate(['/login']);
       }
+
     });
   }
 
