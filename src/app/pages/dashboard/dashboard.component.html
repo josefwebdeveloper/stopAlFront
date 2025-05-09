@@ -1,4 +1,24 @@
 <div class="dashboard-container">
+  <!-- Last Image Card - First widget to display -->
+ 
+
+  <!-- No Image Card - Show if there's no image yet -->
+  <mat-card *ngIf="!lastImage" class="last-image-card no-image-card">
+    <mat-card-header>
+      <mat-card-title>Progress Photo</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="no-image-container">
+        <mat-icon>photo_camera</mat-icon>
+        <p>No progress photos yet</p>
+        <button mat-raised-button color="primary" (click)="openImageUpload()">
+          <mat-icon>add_a_photo</mat-icon>
+          Add Photo
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <!-- Total Earned Card - Add this before widget-grid -->
   <mat-card class="total-earned-card">
     <mat-card-content>
@@ -21,6 +41,20 @@
   </mat-card>
 
   <div class="widget-grid">
+    <!-- First widget in the grid - Progress Photo Widget -->
+    <mat-card *ngIf="lastImage" class="widget-card image-card">
+      
+      <mat-card-content>
+        <div class="image-container">
+          <img [src]="lastImage.url" [alt]="'Weight progress photo'" class="widget-progress-image">
+        </div>
+        <!-- <div class="image-details">
+          <div>{{ lastImage.weight }} kg</div>
+          <div>{{ lastImage.weightDate | date:'mediumDate' }}</div>
+        </div> -->
+      </mat-card-content>
+    </mat-card>
+
     <!-- Tennis Lessons Card -->
 <!--    <mat-card class="widget-card tennis-card">-->
 <!--      <mat-card-header>-->
@@ -155,5 +189,11 @@
           class="add-data-fab"
           (click)="openAddDataPopup()">
     <mat-icon>add</mat-icon>
+  </button>
+  
+  <button mat-fab
+          class="add-photo-fab"
+          (click)="openImageUpload()">
+    <mat-icon>add_a_photo</mat-icon>
   </button>
 </div>

@@ -11,10 +11,24 @@ export interface Entry {
   createdAt: string;
   updatedAt?: string;
   bmi?: number;
+  imageUrl?: string | null;
+}
+
+export interface LastImage {
+  id: string;
+  url: string;
+  publicId: string;
+  width: number;
+  height: number;
+  format: string;
+  createdAt: string;
+  weight: number;
+  weightDate: string;
 }
 
 export interface EntryData {
   entries: Entry[];
   totalEarned: number;
   totalDaysWithoutAlcohol: number;
+  lastImage?: LastImage;
 }

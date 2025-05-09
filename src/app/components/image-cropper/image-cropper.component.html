@@ -1,0 +1,31 @@
+<div class="cropper-container">
+  <h2 class="cropper-title">Crop Progress Photo</h2>
+  
+  <div class="file-selection" *ngIf="!imageChangedEvent">
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+      <mat-icon>add_photo_alternate</mat-icon>
+      Select Photo
+    </button>
+    <input type="file" #fileInput style="display:none" (change)="fileChangeEvent($event)" accept="image/*">
+  </div>
+  
+  <div class="cropper-area" *ngIf="imageChangedEvent">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4/5"
+      [resizeToWidth]="800"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+      (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+  </div>
+  
+  <div class="action-buttons" *ngIf="imageChangedEvent">
+    <button mat-button (click)="resetImage()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="uploadImage()" [disabled]="isUploading">
+      <mat-spinner diameter="20" *ngIf="isUploading"></mat-spinner>
+      <span *ngIf="!isUploading">Save Photo</span>
+    </button>
+  </div>
+</div> 

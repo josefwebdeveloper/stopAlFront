@@ -5,8 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { AddDataPopupComponent } from '../../components/add-data-popup/add-data-popup.component';
+import { ImageUploadComponent } from '../../components/image-upload/image-upload.component';
 import { AuthService } from '../../services/auth.service';
-import { Entry, EntryData } from '../../interfaces/entry-data.interface';
+import { Entry, EntryData, LastImage } from '../../interfaces/entry-data.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap, tap, filter } from 'rxjs/operators';
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   entries: Entry[] = [];
   latestEntry?: Entry;
   totalEarned = 0;
+  lastImage?: LastImage;
   private readonly destroyRef = inject(DestroyRef);
   private refreshTrigger = new BehaviorSubject<void>(undefined);
   readonly TENNIS_LESSON_COST = 200;
@@ -45,7 +47,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.entries = data.entries;
           this.latestEntry = data.entries[0];
           this.totalEarned = data.totalEarned;
+          this.lastImage = data.lastImage;
           console.log('Latest entry:', this.latestEntry);
+          console.log('Last image:', this.lastImage);
         }
       }
     });
@@ -59,6 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.entries = data.entries;
         this.latestEntry = data.entries[0];
         this.totalEarned = data.totalEarned;
+        this.lastImage = data.lastImage;
         console.log('Manually refreshed latest entry:', this.latestEntry);
       },
       error: (error) => {
@@ -107,6 +112,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
           }
         });
+      }
+    });
+  }
+
+  openImageUpload() {
+    const dialogRef = this.dialog.open(ImageUploadComponent, {
+      width: '500px',
+      maxWidth: '95vw',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(result => {
+      if (result) {
+        console.log('Image uploaded:', result);
+        // Refresh data to get the new image
+        this.refreshTrigger.next();
       }
     });
   }

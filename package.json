@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^19.2.9",
     "@angular/router": "^19.2.9",
     "@types/three": "^0.171.0",
+    "ngx-image-cropper": "^4.0.0",
     "rxjs": "~7.8.0",
     "three": "^0.171.0",
     "tslib": "^2.3.0",

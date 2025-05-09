@@ -7,6 +7,8 @@ import {ProfileComponent} from './pages/profile/profile.component';
 import {SettingsComponent} from './pages/settings/settings.component';
 import {TripDescriptionComponent} from './pages/trip-description/trip-description.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
+import { AddDataPopupComponent } from './components/add-data-popup/add-data-popup.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},

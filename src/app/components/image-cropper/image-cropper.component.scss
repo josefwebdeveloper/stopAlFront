@@ -1,0 +1,41 @@
+.cropper-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  max-width: 100%;
+  max-height: 80vh;
+}
+
+.cropper-title {
+  text-align: center;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.file-selection {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.cropper-area {
+  margin: 16px 0;
+  max-height: 60vh;
+  overflow: hidden;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+::ng-deep .ngx-ic-overlay {
+  outline-color: #3f51b5 !important;
+}
+
+mat-spinner {
+  display: inline-block;
+  margin-right: 8px;
+} 
