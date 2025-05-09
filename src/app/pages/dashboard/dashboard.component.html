@@ -1,23 +1,25 @@
 <div class="dashboard-container">
   <!-- Last Image Card - First widget to display -->
- 
+
 
   <!-- No Image Card - Show if there's no image yet -->
-  <mat-card *ngIf="!lastImage" class="last-image-card no-image-card">
-    <mat-card-header>
-      <mat-card-title>Progress Photo</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="no-image-container">
-        <mat-icon>photo_camera</mat-icon>
-        <p>No progress photos yet</p>
-        <button mat-raised-button color="primary" (click)="openImageUpload()">
-          <mat-icon>add_a_photo</mat-icon>
-          Add Photo
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  @if (!lastImage) {
+    <mat-card class="last-image-card no-image-card">
+      <mat-card-header>
+        <mat-card-title>Progress Photo</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="no-image-container">
+          <mat-icon>photo_camera</mat-icon>
+          <p>No progress photos yet</p>
+          <button mat-raised-button color="primary" (click)="openImageUpload()">
+            <mat-icon>add_a_photo</mat-icon>
+            Add Photo
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
 
   <!-- Total Earned Card - Add this before widget-grid -->
   <mat-card class="total-earned-card">
@@ -32,33 +34,38 @@
         </div>
       </div>
       <div class="money-rain">
-        <span class="shekel" *ngFor="let i of [1,2,3,4,5]">₪</span>
+        @for (i of [1,2,3,4,5]; track i) {
+          <span class="shekel">₪</span>
+        }
       </div>
       <div class="snow-fall">
-        <span class="snowflake" *ngFor="let i of [1,2,3,4,5,6,7,8]">❄</span>
+        @for (i of [1,2,3,4,5,6,7,8]; track i) {
+          <span class="snowflake">❄</span>
+        }
       </div>
     </mat-card-content>
   </mat-card>
 
   <div class="widget-grid">
     <!-- First widget in the grid - Progress Photo Widget -->
-    <mat-card *ngIf="lastImage" class="widget-card image-card">
-      
-      <mat-card-content>
-        <div class="image-container">
-          <img [src]="lastImage.url" [alt]="'Weight progress photo'" class="widget-progress-image">
-        </div>
-        <!-- <div class="image-details">
+    @if (lastImage) {
+      <mat-card class="widget-card image-card">
+        <mat-card-content>
+          <div class="image-container">
+            <img [src]="lastImage.url" [alt]="'Weight progress photo'" class="widget-progress-image">
+          </div>
+          <!-- <div class="image-details">
           <div>{{ lastImage.weight }} kg</div>
           <div>{{ lastImage.weightDate | date:'mediumDate' }}</div>
         </div> -->
       </mat-card-content>
     </mat-card>
+  }
 
-    <!-- Tennis Lessons Card -->
-<!--    <mat-card class="widget-card tennis-card">-->
-<!--      <mat-card-header>-->
-<!--        <mat-card-title>Tennis Progress</mat-card-title>-->
+  <!-- Tennis Lessons Card -->
+  <!--    <mat-card class="widget-card tennis-card">-->
+  <!--      <mat-card-header>-->
+  <!--        <mat-card-title>Tennis Progress</mat-card-title>-->
 <!--      </mat-card-header>-->
 <!--      <mat-card-content>-->
 <!--        <div class="metric-value tennis-value">-->
@@ -75,125 +82,125 @@
 <!--      </mat-card-content>-->
 <!--    </mat-card>-->
 
-    <!-- Sober Streak Card -->
-    <mat-card class="widget-card sober-card">
-      <mat-card-header>
-        <mat-card-title>Sober Streak</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value sober-value">
-          {{ soberMessage }}
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- Sober Streak Card -->
+<mat-card class="widget-card sober-card">
+  <mat-card-header>
+    <mat-card-title>Sober Streak</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value sober-value">
+      {{ soberMessage }}
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- Weekly Earnings Card -->
-    <mat-card class="widget-card weekly-card">
-      <mat-card-header>
-        <mat-card-title>This Week</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value earnings-value">
-          ₪{{ weeklyEarnings | number:'1.0-0' }}
-          <div class="earnings-subtitle">
-            <span class="trend-indicator">
-              {{ weeklyTrendEmoji }}
-            </span>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- Weekly Earnings Card -->
+<mat-card class="widget-card weekly-card">
+  <mat-card-header>
+    <mat-card-title>This Week</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value earnings-value">
+      ₪{{ weeklyEarnings | number:'1.0-0' }}
+      <div class="earnings-subtitle">
+        <span class="trend-indicator">
+          {{ weeklyTrendEmoji }}
+        </span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- Monthly Earnings Card -->
-    <mat-card class="widget-card monthly-card">
-      <mat-card-header>
-        <mat-card-title>This Month</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value earnings-value">
-          ₪{{ monthlyEarnings | number:'1.0-0' }}
-          <div class="earnings-subtitle">
-            <span class="trend-indicator">
-              {{ monthlyMessage }}
-            </span>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- Monthly Earnings Card -->
+<mat-card class="widget-card monthly-card">
+  <mat-card-header>
+    <mat-card-title>This Month</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value earnings-value">
+      ₪{{ monthlyEarnings | number:'1.0-0' }}
+      <div class="earnings-subtitle">
+        <span class="trend-indicator">
+          {{ monthlyMessage }}
+        </span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- BMI Card -->
-    <mat-card class="widget-card bmi-card">
-      <mat-card-header>
-        <mat-card-title>BMI</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value">
-          {{ bmi || '-' }}
-          <div class="bmi-category">
-            {{ bmiCategory }}
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- BMI Card -->
+<mat-card class="widget-card bmi-card">
+  <mat-card-header>
+    <mat-card-title>BMI</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value">
+      {{ bmi || '-' }}
+      <div class="bmi-category">
+        {{ bmiCategory }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- Weight Card -->
-    <mat-card class="widget-card weight-card">
-      <mat-card-header>
-        <mat-card-title>Weight</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value">
-          {{ latestEntry?.weight || '-' }} kg
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- Weight Card -->
+<mat-card class="widget-card weight-card">
+  <mat-card-header>
+    <mat-card-title>Weight</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value">
+      {{ latestEntry?.weight || '-' }} kg
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- Calories Card -->
-    <mat-card class="widget-card calories-card">
-      <mat-card-header>
-        <mat-card-title>Calories</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value">
-          {{ latestEntry?.activityCalories || '-' }} kcal
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- Calories Card -->
+<mat-card class="widget-card calories-card">
+  <mat-card-header>
+    <mat-card-title>Calories</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value">
+      {{ latestEntry?.activityCalories || '-' }} kcal
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- Sleep Card -->
-    <mat-card class="widget-card sleep-card">
-      <mat-card-header>
-        <mat-card-title>Sleep</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value">
-          {{ latestEntry?.sleep || '-' }} hours
-        </div>
-      </mat-card-content>
-    </mat-card>
+<!-- Sleep Card -->
+<mat-card class="widget-card sleep-card">
+  <mat-card-header>
+    <mat-card-title>Sleep</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value">
+      {{ latestEntry?.sleep || '-' }} hours
+    </div>
+  </mat-card-content>
+</mat-card>
 
-    <!-- Alcohol Card -->
-    <mat-card class="widget-card alcohol-card">
-      <mat-card-header>
-        <mat-card-title>Alcohol</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="metric-value">
-          {{ latestEntry?.alcohol ? 'Yes' : 'No' }}
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+<!-- Alcohol Card -->
+<mat-card class="widget-card alcohol-card">
+  <mat-card-header>
+    <mat-card-title>Alcohol</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="metric-value">
+      {{ latestEntry?.alcohol ? 'Yes' : 'No' }}
+    </div>
+  </mat-card-content>
+</mat-card>
+</div>
 
-  <button mat-fab color="primary"
-          class="add-data-fab"
-          (click)="openAddDataPopup()">
-    <mat-icon>add</mat-icon>
-  </button>
-  
-  <button mat-fab
-          class="add-photo-fab"
-          (click)="openImageUpload()">
-    <mat-icon>add_a_photo</mat-icon>
-  </button>
+<button mat-fab color="primary"
+  class="add-data-fab"
+  (click)="openAddDataPopup()">
+  <mat-icon>add</mat-icon>
+</button>
+
+<button mat-fab
+  class="add-photo-fab"
+  (click)="openImageUpload()">
+  <mat-icon>add_a_photo</mat-icon>
+</button>
 </div>

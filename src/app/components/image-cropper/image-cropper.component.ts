@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,13 +11,12 @@ import { ImageCropperModule, ImageCroppedEvent } from 'ngx-image-cropper';
   selector: 'app-image-cropper',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
     MatProgressSpinnerModule,
     ImageCropperModule
-  ],
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './image-cropper.component.html',
   styleUrls: ['./image-cropper.component.scss']

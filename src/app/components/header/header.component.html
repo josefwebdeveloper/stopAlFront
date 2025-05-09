@@ -19,14 +19,15 @@
         <mat-icon>{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
       </button>
 
-      <ng-container *ngIf="user$ | async as user; else loginButton">
+      @if (user$ | async; as user) {
         <span class="user-name hide-on-mobile">{{ user.displayName }}</span>
         <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
-          <img [src]="user.photoURL" alt="user avatar" class="user-avatar"
-               *ngIf="user.photoURL; else userIcon">
-          <ng-template #userIcon>
+          @if (user.photoURL) {
+            <img [src]="user.photoURL" alt="user avatar" class="user-avatar"
+              >
+          } @else {
             <mat-icon>account_circle</mat-icon>
-          </ng-template>
+          }
         </button>
         <mat-menu #userMenu="matMenu" class="user-menu">
           <button mat-menu-item (click)="logout()">
@@ -34,14 +35,13 @@
             <span>Logout</span>
           </button>
         </mat-menu>
-      </ng-container>
-
-      <ng-template #loginButton>
+      } @else {
         <button mat-button (click)="login()" class="login-button">
           <mat-icon>login</mat-icon>
           <span class="login-text">Login</span>
         </button>
-      </ng-template>
+      }
+
     </div>
   </div>
 </mat-toolbar>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,12 +10,11 @@ import { ImageService } from '../../services/image.service';
   selector: 'app-image-upload',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
     MatProgressSpinnerModule
-  ],
+],
   templateUrl: './image-upload.component.html',
   styleUrls: ['./image-upload.component.scss']
 })

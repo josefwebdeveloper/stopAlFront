@@ -1,26 +1,30 @@
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { CommonModule } from '@angular/common';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-profile',
-    imports: [CommonModule, MatProgressSpinnerModule],
+    imports: [MatProgressSpinnerModule],
     template: `
     <div class="profile-container">
       <canvas #canvas class="model-viewer"></canvas>
       <div class="profile-content">
         <h1>Profile</h1>
-        <div *ngIf="isLoading" class="loading">
-          <mat-spinner diameter="40"></mat-spinner>
-          <span>Loading 3D Scene...</span>
-        </div>
-        <div *ngIf="error" class="error">{{ error }}</div>
+        @if (isLoading) {
+          <div class="loading">
+            <mat-spinner diameter="40"></mat-spinner>
+            <span>Loading 3D Scene...</span>
+          </div>
+        }
+        @if (error) {
+          <div class="error">{{ error }}</div>
+        }
       </div>
     </div>
-  `,
+    `,
     styles: [`
     .profile-container {
       width: 100%;

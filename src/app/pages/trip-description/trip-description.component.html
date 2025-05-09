@@ -6,22 +6,24 @@
 <div class="content-container" #contentContainer>
   <section>
     <h2>Our Upcoming Adventure</h2>
-    <p>Join us for an unforgettable cross-country skiing experience in the beautiful region of Trentino, Italy. 
-       We'll be staying at the charming Casa al portico Val di Cembra, perfectly located for our winter activities.</p>
+    <p>Join us for an unforgettable cross-country skiing experience in the beautiful region of Trentino, Italy.
+    We'll be staying at the charming Casa al portico Val di Cembra, perfectly located for our winter activities.</p>
   </section>
 
   <div class="highlight-cards">
-    <mat-card class="highlight-card" *ngFor="let highlight of tripHighlights">
-      <mat-icon>{{highlight.icon}}</mat-icon>
-      <h3>{{highlight.text}}</h3>
-    </mat-card>
+    @for (highlight of tripHighlights; track highlight) {
+      <mat-card class="highlight-card">
+        <mat-icon>{{highlight.icon}}</mat-icon>
+        <h3>{{highlight.text}}</h3>
+      </mat-card>
+    }
   </div>
 
   <section class="accommodation">
     <h2>Our Beautiful Accommodation</h2>
-    <p>Casa al portico Val di Cembra offers the perfect blend of comfort and traditional Italian charm. 
-       With its wooden beams and cozy atmosphere, it's the ideal base for our skiing adventure.</p>
-    
+    <p>Casa al portico Val di Cembra offers the perfect blend of comfort and traditional Italian charm.
+    With its wooden beams and cozy atmosphere, it's the ideal base for our skiing adventure.</p>
+
     <div class="image-gallery">
       <img [src]="images[0]" alt="Casa al portico Val di Cembra - Bedroom view">
       <img [src]="images[1]" alt="Casa al portico Val di Cembra - Living area">
@@ -43,4 +45,4 @@
       </mat-card-content>
     </mat-card>
   </section>
-</div> 
+</div>

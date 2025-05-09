@@ -1,23 +1,33 @@
 <div class="upload-container">
   <h2 class="upload-title">Upload Progress Photo</h2>
-  
-  <div class="file-selection" *ngIf="!imageFile">
-    <button mat-raised-button color="primary" (click)="fileInput.click()">
-      <mat-icon>add_photo_alternate</mat-icon>
-      Select Photo
-    </button>
-    <input type="file" #fileInput style="display:none" (change)="handleFileInput($event)" accept="image/*">
-  </div>
-  
-  <div class="preview-area" *ngIf="previewUrl">
-    <img [src]="previewUrl" alt="Preview" class="image-preview">
-  </div>
-  
-  <div class="action-buttons" *ngIf="imageFile">
-    <button mat-button (click)="resetImage()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="uploadImage()" [disabled]="isUploading">
-      <mat-spinner diameter="20" *ngIf="isUploading"></mat-spinner>
-      <span *ngIf="!isUploading">Save Photo</span>
-    </button>
-  </div>
-</div> 
+
+  @if (!imageFile) {
+    <div class="file-selection">
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        <mat-icon>add_photo_alternate</mat-icon>
+        Select Photo
+      </button>
+      <input type="file" #fileInput style="display:none" (change)="handleFileInput($event)" accept="image/*">
+    </div>
+  }
+
+  @if (previewUrl) {
+    <div class="preview-area">
+      <img [src]="previewUrl" alt="Preview" class="image-preview">
+    </div>
+  }
+
+  @if (imageFile) {
+    <div class="action-buttons">
+      <button mat-button (click)="resetImage()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="uploadImage()" [disabled]="isUploading">
+        @if (isUploading) {
+          <mat-spinner diameter="20"></mat-spinner>
+        }
+        @if (!isUploading) {
+          <span>Save Photo</span>
+        }
+      </button>
+    </div>
+  }
+</div>

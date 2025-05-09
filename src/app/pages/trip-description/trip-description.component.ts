@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-trip-description',
-    imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+    imports: [MatCardModule, MatButtonModule, MatIconModule],
     templateUrl: './trip-description.component.html',
     styleUrls: ['./trip-description.component.scss']
 })

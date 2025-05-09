@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DestroyRef, inject } from '@angular/core';
 
 @Component({
     selector: 'app-auth-callback',
     template: '<div>Processing authentication...</div>',
-    imports: [CommonModule]
+    imports: []
 })
 export class AuthCallbackComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);

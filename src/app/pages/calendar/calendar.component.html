@@ -17,21 +17,26 @@
     </div>
 
     <div class="calendar-weeks" [class.loading]="loading">
-      <div class="week" *ngFor="let week of calendar">
-        <div class="day" 
-             *ngFor="let day of week"
-             [class.drinking]="day.isDrinking"
-             [class.non-drinking]="!day.isDrinking"
-             [class.current-month]="day.isCurrentMonth"
-             [class.other-month]="!day.isCurrentMonth"
-             (click)="toggleDay(day)">
-          {{ day.date | date:'d' }}
+      @for (week of calendar; track week) {
+        <div class="week">
+          @for (day of week; track day) {
+            <div class="day"
+              [class.drinking]="day.isDrinking"
+              [class.non-drinking]="!day.isDrinking"
+              [class.current-month]="day.isCurrentMonth"
+              [class.other-month]="!day.isCurrentMonth"
+              (click)="toggleDay(day)">
+              {{ day.date | date:'d' }}
+            </div>
+          }
         </div>
-      </div>
-      
-      <div class="loading-overlay" *ngIf="loading">
-        <mat-spinner diameter="40"></mat-spinner>
-      </div>
+      }
+
+      @if (loading) {
+        <div class="loading-overlay">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+      }
     </div>
   </div>
-</div> 
+</div>
