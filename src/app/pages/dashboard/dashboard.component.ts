@@ -13,15 +13,16 @@ import { BehaviorSubject } from 'rxjs';
 import { switchMap, tap, filter } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatIconModule,
-        MatCardModule
-    ]
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule
+  ]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   entries: Entry[] = [];
@@ -53,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       }
     });
-    
+
     // Keep the manual refresh capability
     this.refreshTrigger.pipe(
       switchMap(() => this.authService.getEntries()),
@@ -226,7 +227,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.moneyRainInterval) {
       clearInterval(this.moneyRainInterval);
     }
-    
+
     // Set a new interval with proper reference for cleanup
     this.moneyRainInterval = setInterval(() => {
       const moneyRain = document.querySelector('.money-rain') as HTMLElement;
